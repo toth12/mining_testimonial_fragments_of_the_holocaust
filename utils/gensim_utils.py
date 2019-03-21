@@ -9,6 +9,8 @@ import string
 from nltk.corpus import stopwords
 import constants
 from gensim.models.phrases import Phrases, Phraser
+from itertools import chain
+from gensim.models.wrappers import LdaMallet
 
 
 
@@ -66,7 +68,48 @@ def identify_phrases(sentence,path_to_gensim_phrase_model):
 	new_sentence=phraser_model[sentence]
 	return new_sentence
 
+def train_lda_topic_model_with_mallet(contexts,path_mallet):
+	dictionary=Dictionary(contexts)
+
+
 def main():
+	#build dictionary
+	results=blacklab.search_blacklab('<s/> <s/> (<s/> containing "numb") <s/> <s/>',window=0,lemma=True)
+	results=[match['complete_match'].strip() for match in results]
+
+	for i,result in enumerate(results):
+		if i==0:
+			#todo filter here
+			result = result.split()
+			filtered_result = [word for word in result if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]
+			
+			dct=initialize_gensim_dictionary([filtered_result])
+		else:
+			result = result.split()
+			filtered_result = [word for word in result if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]
+			add_documents_to_gensim_dictionary(dct,[filtered_result])
+	
+	gensim_corpus = [dct.doc2bow(bag_of_word.split()) for bag_of_word in results]
+	
+	lda = LdaMallet(constants.PATH_TO_MALLET, gensim_corpus, id2word=dct,num_topics=50)
+	
+
+
+
+	all_words = ''.join(results).split()
+	filtered_results = [word for word in all_words if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]
+    #todo: filter out stopwords	
+	dct=initialize_gensim_dictionary([filtered_results])
+	pdb.set_trace()
+	
+	print ('Adjectives')
+	print (i)
+	
+
+
+	train_lda_topic_model_with_mallet(contexts,'somepath')
+
+	'''
 	ids=text.read_json(constants.INPUT_FOLDER+'testimony_ids.json')
 	ids = [element['testimony_id'] for element in ids][0:16]
 	phrase_model=build_gensim_phrase_model_from_sentences(blacklab.iterable_results('<s/>',document_ids=ids,lemma=True))	
@@ -78,6 +121,8 @@ def main():
 	model.save(constants.OUTPUT_FOLDER+'word2vecmodel')
 	print (len(cc))
 	pdb.set_trace()
+	
+	'''
 	'''
 	model=Word2Vec.build_vocab(vocabulary)
 
