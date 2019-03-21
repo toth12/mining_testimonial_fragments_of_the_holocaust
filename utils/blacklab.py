@@ -11,6 +11,7 @@ import json
 import os
 import constants
 import pdb
+from gensim.models.phrases import Phrases, Phraser
 
 def search_blacklab(query,window=5,document_id=None,lemma=False):
   '''
@@ -228,25 +229,38 @@ def get_testimony_meta(obj, field, doc_infos):
 
 
 class iterable_results(object):
-  def __init__(self, search_pattern, window=5,lemma=False,document_ids=None):
+  def __init__(self, search_pattern, window=5,lemma=False,document_ids=None,path_to_phrase_model=None):
     self.ids = document_ids
     self.window = window
     self.search_pattern = search_pattern
     self.lemma = lemma
+    self.path_to_phrase_model = path_to_phrase_model
+    if path_to_phrase_model is not None:
+      self.phraser_model = Phraser(Phrases.load(path_to_phrase_model))
+    
     
 
  
   def __iter__(self):
     if self.ids is not None:
 
-      for i in self.ids:
+      for index,i in enumerate(self.ids):
+        print (index)
+        print (len(self.ids))
+        print (i)
         results=search_blacklab(self.search_pattern,document_id=i,window=self.window,lemma=self.lemma)
         for result in results:
-          yield result['complete_match'].strip().split(' ')
+          if self.path_to_phrase_model is not None:
+            yield  self.phraser_model[result['complete_match'].strip().split(' ')]
+          else:
+            yield result['complete_match'].strip().split(' ')
     else:
         results=search_blacklab(self.search_pattern,document_id=None,window=self.window,lemma=self.lemma)
         for result in results:
-          yield result['complete_match'].strip().split(' ')
+          if self.path_to_phrase_model is not None:
+            yield  self.phraser_model[result['complete_match'].strip().split(' ')]
+          else:
+            yield result['complete_match'].strip().split(' ')
 
 
 def main():

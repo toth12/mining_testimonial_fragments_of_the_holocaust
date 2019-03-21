@@ -8,6 +8,7 @@ from gensim import utils
 import string
 from nltk.corpus import stopwords
 import constants
+from gensim.models.phrases import Phrases, Phraser
 
 
 
@@ -43,19 +44,38 @@ def build_gensim_synset_model_from_sentences(sentences):
 	return model
 
 def trim_rule(word,count,min_count):
-	if (word[0] not in string.ascii_lowercase) or (word in set(stopwords.words('english')) ):
+	if (word[0] not in string.ascii_uppercase + string.ascii_lowercase) or (word in set(stopwords.words('english')) ):
 		return utils.RULE_DISCARD
 
 def initialize_gensim_synset_model_with_dictionary(dictionary):
 	model = Word2Vec().build_vocab_from_freq(dictionary)
 	return model
-	
+
+def find_similar_terms(term,path_to_model,n=10):
+	model=Word2Vec.load(path_to_model)
+	similar_terms=model.wv.most_similar(term,topn=n)
+	return similar_terms
+
+def build_gensim_phrase_model_from_sentences(sentences):
+	phrases = Phrases(sentences, min_count=5, threshold=2)
+	return phrases
+
+def identify_phrases(sentence,path_to_gensim_phrase_model):
+	phrase_model = Phrases.load(path_to_gensim_phrase_model)
+	phraser_model=Phraser(phrase_model)
+	new_sentence=phraser_model[sentence]
+	return new_sentence
 
 def main():
 	ids=text.read_json(constants.INPUT_FOLDER+'testimony_ids.json')
-	ids = [element['testimony_id'] for element in ids]
-	model=build_gensim_synset_model_from_sentences(blacklab.iterable_results('<s/>',document_ids=ids,lemma=True))
+	ids = [element['testimony_id'] for element in ids][0:16]
+	phrase_model=build_gensim_phrase_model_from_sentences(blacklab.iterable_results('<s/>',document_ids=ids,lemma=True))	
+	phrase_model.save(constants.OUTPUT_FOLDER+"phrase_model")
+
+	
+	model=build_gensim_synset_model_from_sentences(blacklab.iterable_results('<s/>',document_ids=ids,lemma=True, path_to_phrase_model=constants.OUTPUT_FOLDER+"phrase_model"))
 	cc=sorted(model.wv.vocab.keys())
+	model.save(constants.OUTPUT_FOLDER+'word2vecmodel')
 	print (len(cc))
 	pdb.set_trace()
 	'''
