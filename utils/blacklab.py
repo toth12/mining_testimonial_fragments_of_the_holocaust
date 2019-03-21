@@ -12,7 +12,7 @@ import os
 import constants
 import pdb
 
-def search_blacklab(query,window=5):
+def search_blacklab(query,window=5,document_id=None,lemma=False):
   '''
   Run a search against the blacklab server. For full documentation
   on these parameters, see the official BlackLab documentation:
@@ -23,15 +23,18 @@ def search_blacklab(query,window=5):
   params=[]
   root = constants.BLACKLAB_URL+'hits'
   # query-based arguments
+  
   arguments = {
     #'first': '0',
+    #'limit':'100',
     'patt': quote_plus(query),
     'waitfortotal': 'true',
     'outputformat': 'json',
     'prettyprint': 'no',
     'wordsaroundhit': window,
   }
-  
+  if document_id is not None:
+  	arguments['filter']=quote_plus('testimony_id:"'+document_id+'"')
   # compose url for blacklab query
   query = root + '?'
   for idx, arg in enumerate(arguments):
@@ -54,11 +57,13 @@ def search_blacklab(query,window=5):
   #first find the total number of results available (number set to zero so that nothing is actually returned just the number of docs)
   result = request_url(query+'&number=0')
   total = get_total_numbers(result)
-  
-  #send the query so that all responses are received by the client
-  result = request_url(query+'&number='+str(total))
-  
-  return parse_response(result)
+  i = 0
+  final_result=[]
+  for i in range(0,total,20):
+  	result = request_url(query+'&first='+str(i)+'&limit=1')
+  	result=parse_response(result,lemma=lemma)
+  	final_result.extend(result['results'])
+  return final_result
 
 
 def get_query_pattern(query):
@@ -119,30 +124,57 @@ def request_url(url):
   return json.loads(json_response)
 
 
-def parse_response(obj):
-  '''
-  Parse a BlackLab server response object into the required format
-  @args:
-    {obj} a response from a BlackLab server query
-  @returns:
-    {obj} an object in the format required by the client
-  '''
-  total = obj['summary']['numberOfHitsRetrieved']
-  doc_infos = obj['docInfos']
-  results = []
+def parse_response(obj,lemma):
+	'''
+	  Parse a BlackLab server response object into the required format
+	  @args:
+	    {obj} a response from a BlackLab server query
+	  @returns:
+	    {obj} an object in the format required by the client
+	'''
+	total = obj['summary']['numberOfHitsRetrieved']
+	doc_infos = obj['docInfos']
+	results = []
   
-  for h in obj['hits']:
-    results.append({
-      'left': get_match_string(h['left']),
-      'match': get_match_string(h['match']),
-      'right': get_match_string(h['right']),
-      'testimony_id': get_testimony_meta(h, 'testimony_id', doc_infos),
-      'shelfmark': get_testimony_meta(h, 'shelfmark', doc_infos),
-      'token_start': h['start'],
-      'token_end': h['end']
-    })
+	for h in obj['hits']:
+		left = get_match_string(h['left'],lemma)
+		right = get_match_string(h['right'],lemma)
+		match = get_match_string(h['match'],lemma)
+		complete_match=left+match+right
+		results.append({
+	      'left': get_match_string(h['left']),
+	      'match': get_match_string(h['match']),
+	      'right': get_match_string(h['right']),
+	      'complete_match':complete_match,
+	      'testimony_id': get_testimony_meta(h, 'testimony_id', doc_infos),
+	      'shelfmark': get_testimony_meta(h, 'shelfmark', doc_infos),
+	      'token_start': h['start'],
+	      'token_end': h['end']
+	    })
+	return {
+    'total': total,
+    'results': results,
+  }
 
-  return {
+
+def parse_response_query_snippets(obj,lemma):
+	'''
+	Parse a BlackLab server response object into the required format
+	@args:
+	{obj} a response from a BlackLab server query
+	@returns:
+	{obj} an object in the format required by the client
+	'''
+	total = obj['summary']['numberOfHitsRetrieved']
+	results = []
+	for h in obj['docs']:
+	  	for f in h['snippets']:
+	  		left = get_match_string(f['left'],lemma)
+	  		right = get_match_string(f['right'],lemma)
+	  		match = get_match_string(f['match'],lemma)
+	  		results.append(left+match+right)
+	pdb.set_trace()
+	return {
     'total': total,
     'results': results,
   }
@@ -160,7 +192,7 @@ def get_total_numbers(obj):
   return total
 
 
-def get_match_string(obj):
+def get_match_string(obj,lemma=False):
   '''
   Parse an object with keys `punct` and `word` which indicates
   the word and punctuation that need to occur in sequence to
@@ -170,9 +202,15 @@ def get_match_string(obj):
   @returns:
     {str} the string contained in the given side of the hit
   '''
+ 
   match_string = ''
-  for idx, i in enumerate(obj['word']):
-    match_string += i + obj['punct'][idx]
+  if lemma ==False:
+  	for idx, i in enumerate(obj['word']):
+  		match_string += i + obj['punct'][idx]
+  else:
+  	#pdb.set_trace()
+  	for idx, i in enumerate(obj['lemma']):
+	    match_string += i + obj['punct'][idx]
   return match_string
 
 
@@ -189,5 +227,6 @@ def get_testimony_meta(obj, field, doc_infos):
   return doc_infos[obj['docPid']][field]
 
 def main():
-  response = search_blacklab('["test"]')
-  print(response)
+  response = search_blacklab('["kill"]',window=0,lemma=True)
+  pdb.set_trace()
+  print(len(response))	
