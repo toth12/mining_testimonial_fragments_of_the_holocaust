@@ -3,7 +3,11 @@ from gensim.corpora import Dictionary
 import pdb
 import pandas as pd
 from gensim.models import Word2Vec
-from utils import blacklab
+from utils import blacklab, text
+from gensim import utils
+import string
+from nltk.corpus import stopwords
+import constants
 
 
 
@@ -35,49 +39,25 @@ def load_gensim_dictionary_model(path_to_gensim_dictionary_model):
 	return dct
 
 def build_gensim_synset_model_from_sentences(sentences):
-	model = Word2Vec(sentences, size=100, window=5, min_count=1, workers=4)
+	model = Word2Vec(sentences, size=100, window=5, min_count=5, workers=4,trim_rule=trim_rule)
 	return model
+
+def trim_rule(word,count,min_count):
+	if (word[0] not in string.ascii_lowercase) or (word in set(stopwords.words('english')) ):
+		return utils.RULE_DISCARD
 
 def initialize_gensim_synset_model_with_dictionary(dictionary):
 	model = Word2Vec().build_vocab_from_freq(dictionary)
 	return model
-
-def stream_sententences():
-	ids=['HVT-1','HVT-2']
-	for i in ids:
-		final_result=[]
-		results=blacklab.search_blacklab('<s/>',document_id=i,window=0)
-		for result in results:
-			final_result.append(result['complete_match'].strip().split(' '))
-		yield final_result
-
-
-
-class MySentences(object):
-	def __init__(self, ids):
-		self.ids = ids
- 
-	def __iter__(self):
-		for i in self.ids:
-			final_result=[]
-			results=blacklab.search_blacklab('<s/>',document_id=i,window=0)
-			for result in results:
-				print (result['complete_match'].strip().split(' '))
-				yield result['complete_match'].strip().split(' ')
-			
 	
 
 def main():
-	text_1 = [['human', 'interface', 'cat']]
-	text_2= [["cat", "say", "meow"]]
-	'''vocabulary= text_1+text_2
-
-	for char in stream_sententences():
-		print(char)'''
-	ids=['HVT-1','HVT-2']
-	ll=[['INTERVIEWER', '1', ':', 'We', "'re", 'going', 'to', 'go', 'back', 'into', 'the', 'past', '.'], ['Where', 'are', 'you', 'from', '?']]
-	build_gensim_synset_model_from_sentences(blacklab.iterable_results('<s/>',document_ids=ids))
-
+	ids=text.read_json(constants.INPUT_FOLDER+'testimony_ids.json')
+	ids = [element['testimony_id'] for element in ids]
+	model=build_gensim_synset_model_from_sentences(blacklab.iterable_results('<s/>',document_ids=ids,lemma=True))
+	cc=sorted(model.wv.vocab.keys())
+	print (len(cc))
+	pdb.set_trace()
 	'''
 	model=Word2Vec.build_vocab(vocabulary)
 

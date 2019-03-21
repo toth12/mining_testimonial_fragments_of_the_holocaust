@@ -228,21 +228,23 @@ def get_testimony_meta(obj, field, doc_infos):
 
 
 class iterable_results(object):
-  def __init__(self, search_pattern, window=5,document_ids=None):
+  def __init__(self, search_pattern, window=5,lemma=False,document_ids=None):
     self.ids = document_ids
     self.window = window
     self.search_pattern = search_pattern
+    self.lemma = lemma
+    
 
  
   def __iter__(self):
     if self.ids is not None:
 
       for i in self.ids:
-        results=search_blacklab(self.search_pattern,document_id=i,window=self.window)
+        results=search_blacklab(self.search_pattern,document_id=i,window=self.window,lemma=self.lemma)
         for result in results:
           yield result['complete_match'].strip().split(' ')
     else:
-        results=search_blacklab(self.search_pattern,document_id=None,window=self.window)
+        results=search_blacklab(self.search_pattern,document_id=None,window=self.window,lemma=self.lemma)
         for result in results:
           yield result['complete_match'].strip().split(' ')
 

@@ -1059,7 +1059,8 @@ body .markdown-body
 from gensim.corpora import Dictionary
 import pdb
 import pandas as pd
-from gensim.models import Word2Vec</p>
+from gensim.models import Word2Vec
+from utils import blacklab</p>
 <p>def initialize_gensim_dictionary(text):
     dct = Dictionary(text)<br />
     return dct</p>
@@ -1091,19 +1092,21 @@ else:
     model = Word2Vec().build_vocab_from_freq(dictionary)
     return model</p>
 <p>def main():
-    text_1 = [[&lsquo;human&rsquo;, &lsquo;interface&rsquo;, &lsquo;cat&rsquo;]]
-    text_2= [[&ldquo;cat&rdquo;, &ldquo;say&rdquo;, &ldquo;meow&rdquo;]]
-    vocabulary= &ldquo;cat&rdquo;, &ldquo;say&rdquo;, &ldquo;meow&rdquo;
-    model=build_gensim_synset_model_from_sentences(text_1)
-    pdb.set_trace()
-    dct=initialize_gensim_dictionary(text_1+text_2)
-    corpus = [dct.doc2bow(text) for text in text_1+text_2]
-    word_freq_dic=[[(dct[id], freq) for id, freq in cp] for cp in corpus]
-    pdb.set_trace()
-    model=initialize_gensim_synset_model_with_dictionary(dct)
+    ids=[&lsquo;HVT-1&rsquo;,&rsquo;HVT-2&rsquo;]
+    model=build_gensim_synset_model_from_sentences(blacklab.iterable_results(&lsquo;<s/>&lsquo;,document_ids=ids))
+    pdb.set_trace
     &lsquo;&rsquo;&lsquo;
-    dct=initialize_gensim_dictionary(text_1)
-    add_documents_to_gensim_dictionary(dct,text_2)
-    get_document_frequency_in_dictionary(dct)
-    print (dct.token2id)
-    pdb.set_trace()&rsquo;&lsquo;&rsquo;</p></article></body></html>
+    model=Word2Vec.build_vocab(vocabulary)</p>
+<div class="codehilite"><pre>pdb.set_trace()
+dct=initialize_gensim_dictionary(text_1+text_2)
+corpus = [dct.doc2bow(text) for text in text_1+text_2]
+word_freq_dic=[[(dct[id], freq) for id, freq in cp] for cp in corpus]
+pdb.set_trace()
+model=initialize_gensim_synset_model_with_dictionary(dct)
+
+dct=initialize_gensim_dictionary(text_1)
+add_documents_to_gensim_dictionary(dct,text_2)
+get_document_frequency_in_dictionary(dct)
+print (dct.token2id)
+pdb.set_trace()&#39;&#39;&#39;
+</pre></div></article></body></html>
