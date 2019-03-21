@@ -226,6 +226,27 @@ def get_testimony_meta(obj, field, doc_infos):
   '''
   return doc_infos[obj['docPid']][field]
 
+
+class iterable_results(object):
+  def __init__(self, search_pattern, window=5,document_ids=None):
+    self.ids = document_ids
+    self.window = window
+    self.search_pattern = search_pattern
+
+ 
+  def __iter__(self):
+    if self.ids is not None:
+
+      for i in self.ids:
+        results=search_blacklab(self.search_pattern,document_id=i,window=self.window)
+        for result in results:
+          yield result['complete_match'].strip().split(' ')
+    else:
+        results=search_blacklab(self.search_pattern,document_id=None,window=self.window)
+        for result in results:
+          yield result['complete_match'].strip().split(' ')
+
+
 def main():
   response = search_blacklab('<s/> (<s/> containing [lemma="lllllllllllll"]) <s/>',window=0,lemma=True)
   pdb.set_trace()
