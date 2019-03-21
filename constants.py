@@ -7,3 +7,7 @@ BLACKLAB_URL="http://localhost:8080/blacklab-server-1.7.1/lts/"
 
 #Outputs
 OUTPUT_FOLDER= "Data/Output/"
+
+#Inputs
+
+INPUT_FOLDER= "Data/Input/"

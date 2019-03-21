@@ -1,6 +1,7 @@
 '''Functions to use Gensim'''
 from gensim.corpora import Dictionary
 import pdb
+import pandas as pd
 
 
 def initialize_gensim_dictionary(text):
@@ -13,18 +14,23 @@ def add_documents_to_gensim_dictionary(gensim_dictionary_model,text):
 def get_gensim_dictionary(gensim_dictionary_model):
 	return list(gensim_dictionary_model.token2id.keys())
 
-def get_document_frequency_in_dictionary(gensim_dictionary_model):
+def get_document_frequency_in_dictionary(gensim_dictionary_model,as_pandas_df=False):
 	look_up=gensim_dictionary_model.dfs
 	dictionary=get_gensim_dictionary(gensim_dictionary_model)
 	result={ }
 	for i,word in enumerate(dictionary):
 		result[word]=look_up[i]
 
-	return result
+	if as_pandas_df==True:
+		dfObj = pd.DataFrame(result.items())
+		return dfObj
+	else:
+		return result
 
 def load_gensim_dictionary_model(path_to_gensim_dictionary_model):
 	dct=Dictionary.load(path_to_gensim_dictionary_model)
 	return dct
+
 	
 
 def main():
