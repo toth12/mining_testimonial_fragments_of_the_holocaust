@@ -21,6 +21,10 @@ def get_document_frequency_in_dictionary(gensim_dictionary_model):
 		result[word]=look_up[i]
 
 	return result
+
+def load_gensim_dictionary_model(path_to_gensim_dictionary_model):
+	dct=Dictionary.load(path_to_gensim_dictionary_model)
+	return dct
 	
 
 def main():
