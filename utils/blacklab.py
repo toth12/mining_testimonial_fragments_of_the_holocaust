@@ -227,6 +227,6 @@ def get_testimony_meta(obj, field, doc_infos):
   return doc_infos[obj['docPid']][field]
 
 def main():
-  response = search_blacklab('["kill"]',window=0,lemma=True)
+  response = search_blacklab('<s/> (<s/> containing [lemma="lllllllllllll"]) <s/>',window=0,lemma=True)
   pdb.set_trace()
   print(len(response))	
