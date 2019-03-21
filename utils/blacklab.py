@@ -119,7 +119,7 @@ def request_url(url):
   @returns:
     {obj} an object with the JSON served at `url`
   '''
-  print(' * requesting', url)
+  #print(' * requesting', url)
   json_response = urlopen(url).read().decode('utf8')
   return json.loads(json_response)
 
