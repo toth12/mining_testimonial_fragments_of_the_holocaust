@@ -123,16 +123,32 @@ def post_process_result_of_lda_topic_model(lda_model,gensim_corpus,document_coll
 	return {'topic_documents':topic_closest_doc_with_topics_words , 'document_topic_matrix' : document_topic_matrix}
 	
 
+
 def main():
 	#todo: elimination of searched terms should happen later, eliminate stop words
-	document_collection=blacklab.search_blacklab('<s/> <s/> (<s/> containing [lemma="naked" | lemma="undress" | lemma="strip"]) <s/> <s/>',window=0,lemma=True, include_match=True)
+	'''document_collection=blacklab.search_blacklab('<s/> <s/> (<s/> containing [lemma="naked" | lemma="undress" | lemma="strip"]) <s/> <s/>',window=0,lemma=True, include_match=True)
 	document_collection=[match['complete_match'].strip() for match in document_collection]
 	result_lda_training = train_lda_topic_model_with_mallet(document_collection,constants.PATH_TO_MALLET,50)
 	
-	'''text.write_json('corpus', model['corpus'])
+	text.write_json('corpus', model['corpus'])
 	model['model'].save('ldamodel')
-	text.write_json('plain_texts', results)'''
+	text.write_json('plain_texts', results)
 
 	post_processed = post_process_result_of_lda_topic_model(result_lda_training['model'],result_lda_training['corpus'],document_collection)
+	'''
+
+	topics_texts = text.read_json('topics_texts')
+	
+	output_text = ''
+	for i,element in enumerate(topics_texts):
+		topic_words =  ' '.join([str(topic) for topic in element['topic_words']])
+		output_text = output_text + str(i) + '. '+ topic_words +':' + '\n\n'
+		for document in element['texts']:
+			output_text = output_text + document + '\n\n\n'
+		output_text = output_text + '-----------------------\n\n'
+	f = open('output.txt','w')
+	f.write(output_text)
+	f.close()
 	pdb.set_trace()
+		
 	
