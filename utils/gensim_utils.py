@@ -151,9 +151,9 @@ def main():
 	document_collection=[match['complete_match'].strip() for match in document_collection]
 
 	#result_lda_training = train_lda_topic_model_with_mallet(document_collection,constants.PATH_TO_MALLET,50)
-	result_lda_training = train_lda_topic_model_with_mallet(document_collection,constants.PATH_TO_MALLET,20,True)
+	result_lda_training = train_lda_topic_model_with_mallet(document_collection,constants.PATH_TO_MALLET,50,True)
 
-	limit=20; start=2; step=3;
+	limit=50; start=2; step=3;
 	x = range(start, limit, step)
 	plt.plot(x, result_lda_training)
 	plt.xlabel("Num Topics")
