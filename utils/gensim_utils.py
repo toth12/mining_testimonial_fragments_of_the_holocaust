@@ -68,30 +68,33 @@ def identify_phrases(sentence,path_to_gensim_phrase_model):
 	new_sentence=phraser_model[sentence]
 	return new_sentence
 
-def train_lda_topic_model_with_mallet(contexts,path_mallet):
-	dictionary=Dictionary(contexts)
+def train_lda_topic_model_with_mallet(texts,path_mallet,num_topics=50):
 
+	for i,text in enumerate(texts):
+		if i==0:
+			#todo filter here
+			text = text.split()
+			filtered_text = [word for word in text if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]
+			
+			dct=initialize_gensim_dictionary([filtered_text])
+		else:
+			text = text.split()
+			filtered_text = [word for word in text if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]
+			add_documents_to_gensim_dictionary(dct,[filtered_text])
+	
+	gensim_corpus = [dct.doc2bow(bag_of_word.split()) for bag_of_word in texts]
+	
+	lda = LdaMallet(constants.PATH_TO_MALLET, gensim_corpus, id2word=dct,num_topics=50)
+	return lda
 
 def main():
 	#build dictionary
-	results=blacklab.search_blacklab('<s/> <s/> (<s/> containing "numb") <s/> <s/>',window=0,lemma=True)
+	results=blacklab.search_blacklab('<s/> <s/> (<s/> containing [lemma="naked" | lemma="undress" | lemma="strip"]) <s/> <s/>',window=0,lemma=True, include_match=True, search_terms= ['naked' , 'undress', 'strip'])
 	results=[match['complete_match'].strip() for match in results]
 
-	for i,result in enumerate(results):
-		if i==0:
-			#todo filter here
-			result = result.split()
-			filtered_result = [word for word in result if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]
-			
-			dct=initialize_gensim_dictionary([filtered_result])
-		else:
-			result = result.split()
-			filtered_result = [word for word in result if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]
-			add_documents_to_gensim_dictionary(dct,[filtered_result])
-	
-	gensim_corpus = [dct.doc2bow(bag_of_word.split()) for bag_of_word in results]
-	
-	lda = LdaMallet(constants.PATH_TO_MALLET, gensim_corpus, id2word=dct,num_topics=50)
+	model = train_lda_topic_model_with_mallet(results,constants.PATH_TO_MALLET,50)
+	print (model.show_topics(50))
+	pdb.set_trace()
 	
 
 
