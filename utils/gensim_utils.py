@@ -88,6 +88,44 @@ def train_lda_topic_model_with_mallet(texts,path_mallet,num_topics=50):
 	lda = LdaMallet(constants.PATH_TO_MALLET, gensim_corpus, id2word=dct,num_topics=50)
 	return {'model':lda,'corpus' : gensim_corpus}
 
+
+def post_process_result_of_lda_topic_model(lda_model,gensim_corpus,document_collection):
+	#Prepare containers to store results
+	#Container to keep the document topic matrix
+	document_topic_matrix=[]
+	#Container to keep topics and the closest texts to each topic
+	topic_closest_doc_with_topics_words = []
+	#Container to keep topics
+	all_topics = lda_model.show_topics(50)
+
+	#Create an LDA corpus from the original gensim corpus
+	lda_corpus = lda_model[gensim_corpus]
+
+	#Iterate through the lda corpus and create the document topic matrix
+	for i,documents in enumerate(lda_corpus):
+		#Data returned is not proper numpy matrix
+		document_topic_matrix.append(np.array([elements[1] for elements in documents]))
+
+	#Create the proper numpy matrix
+	document_topic_matrix=np.vstack(document_topic_matrix)
+
+	#Find the closest texts to a given topic
+	#Iterate through the transpose of the document topic matrix
+	for i,element in enumerate(document_topic_matrix.T):
+		#Identify the id of 15 closest texts of each topic
+		closest=element.argsort(axis=0)[-15:][::-1]
+		#Create a container to keep each text with the id above
+		texts = []
+		for element in closest:
+			texts.append(document_collection[element])
+		#Append them to container
+		topic_closest_doc_with_topics_words.append({'texts':texts,'topic_words':all_topics[i]})
+
+	pdb.set_trace()
+
+
+
+
 def main():
 	#build dictionary
 	#todo: elimination of searched terms should happen later
@@ -99,8 +137,8 @@ def main():
 	model['model'].save('ldamodel')
 	text.write_json('plain_texts', results)'''
 
-	
-
+	post_process_result_of_lda_topic_model(LdaMallet.load('ldamodel'),text.read_json('corpus'),text.read_json('plain_texts'))
+	pdb.set_trace()
 	result = {'model': LdaMallet.load('ldamodel'),'corpus': text.read_json('corpus')}
 	plain_text = text.read_json('plain_texts')
 	lda_corpus = result['model'][result['corpus']]
