@@ -11,6 +11,7 @@ import constants
 from gensim.models.phrases import Phrases, Phraser
 from itertools import chain
 from gensim.models.wrappers import LdaMallet
+import numpy as np
 
 
 
@@ -85,19 +86,83 @@ def train_lda_topic_model_with_mallet(texts,path_mallet,num_topics=50):
 	gensim_corpus = [dct.doc2bow(bag_of_word.split()) for bag_of_word in texts]
 	
 	lda = LdaMallet(constants.PATH_TO_MALLET, gensim_corpus, id2word=dct,num_topics=50)
-	return lda
+	return {'model':lda,'corpus' : gensim_corpus}
 
 def main():
 	#build dictionary
-	results=blacklab.search_blacklab('<s/> <s/> (<s/> containing [lemma="naked" | lemma="undress" | lemma="strip"]) <s/> <s/>',window=0,lemma=True, include_match=True, search_terms= ['naked' , 'undress', 'strip'])
+	#todo: elimination of searched terms should happen later
+	'''results=blacklab.search_blacklab('<s/> <s/> (<s/> containing [lemma="naked" | lemma="undress" | lemma="strip"]) <s/> <s/>',window=0,lemma=True, include_match=True)
 	results=[match['complete_match'].strip() for match in results]
-
+	
 	model = train_lda_topic_model_with_mallet(results,constants.PATH_TO_MALLET,50)
-	print (model.show_topics(50))
-	pdb.set_trace()
+	text.write_json('corpus', model['corpus'])
+	model['model'].save('ldamodel')
+	text.write_json('plain_texts', results)'''
+
 	
 
+	result = {'model': LdaMallet.load('ldamodel'),'corpus': text.read_json('corpus')}
+	plain_text = text.read_json('plain_texts')
+	lda_corpus = result['model'][result['corpus']]
+	all_topics = result['model'].show_topics(50)
+	
+	#prepare container
+	#create a container to keep the document topic matrix
+	document_topic_matrix=[]
+	#prepare a container for keeping the topic and the documents for which the given topic is the first one
+	topic_first_doc = {v:[] for v in range(0,50)}
 
+	#prepare a container for topics and the closest texts to them
+	topic_closest_doc = []
+
+	topic_closest_doc_with_topics_words = {}
+
+	#end of containers
+
+
+	for i,documents in enumerate(lda_corpus):
+		
+		#find the strongest topic for document
+		most_important_topic_for_document=np.array([elements[1] for elements in documents]).argmax()
+
+		
+
+		
+		#make a proper np array to keep the the document per topic relationship and add it to the document matrix
+		document_topic_matrix.append(np.array([elements[1] for elements in documents]))
+		
+		topic_first_doc[most_important_topic_for_document].append(plain_text[i])
+
+		'''
+
+		#add the id of the topic which is the strongest for a given document 
+		topics_list.append(topics)
+
+		#add the sentence and id to the topic which is the strongest
+		
+
+		'''
+		
+	#create the final document term matrix in numpy
+	document_topic_matrix=np.vstack(document_topic_matrix)
+
+	#Find the closest texts to a given topic
+	for i,element in enumerate(document_topic_matrix.T):
+		
+		closest=element.argsort(axis=0)[-15:][::-1]
+		texts = []
+		for element in closest:
+			texts.append(plain_text[element])
+		
+		topic_closest_doc.append({'texts':texts,'topic_words':all_topics[i]}) 
+
+
+		
+
+
+	pdb.set_trace()
+	
+	#idaig
 
 	all_words = ''.join(results).split()
 	filtered_results = [word for word in all_words if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]

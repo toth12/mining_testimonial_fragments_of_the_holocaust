@@ -225,8 +225,6 @@ def get_match_string(obj,lemma=False,search_terms=None):
 	if search_terms is not None:
 		for search_term in search_terms:
 			match_string = match_string.replace(search_term,'')
-	if 'naked' in match_string:
-		pdb.set_trace(	)
 	return match_string
 
 
