@@ -68,7 +68,7 @@ def identify_phrases(sentence,path_to_gensim_phrase_model):
 
 def main():
 	ids=text.read_json(constants.INPUT_FOLDER+'testimony_ids.json')
-	ids = [element['testimony_id'] for element in ids][0:16]
+	ids = [element['testimony_id'] for element in ids]
 	phrase_model=build_gensim_phrase_model_from_sentences(blacklab.iterable_results('<s/>',document_ids=ids,lemma=True))	
 	phrase_model.save(constants.OUTPUT_FOLDER+"phrase_model")
 
