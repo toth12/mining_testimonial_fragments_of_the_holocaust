@@ -12,6 +12,12 @@ from gensim.models.phrases import Phrases, Phraser
 from itertools import chain
 from gensim.models.wrappers import LdaMallet
 import numpy as np
+from gensim.models import CoherenceModel
+import matplotlib
+matplotlib.use('PS')
+import matplotlib.pyplot as plt
+import pyLDAvis
+import pyLDAvis.gensim
 
 
 
@@ -69,24 +75,39 @@ def identify_phrases(sentence,path_to_gensim_phrase_model):
 	new_sentence=phraser_model[sentence]
 	return new_sentence
 
-def train_lda_topic_model_with_mallet(texts,path_mallet,num_topics=50):
-
+def train_lda_topic_model_with_mallet(texts,path_mallet, num_topics=50, scoring = False, start = 2 , step = 3):
+	preprocessed_corpus = []
 	for i,text in enumerate(texts):
 		if i==0:
 			#todo filter here
 			text = text.split()
-			filtered_text = [word for word in text if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]
-			
+			filtered_text = [word for word in text if (word[0] in string.ascii_uppercase + string.ascii_lowercase)]
+			filtered_text = [word for word in filtered_text if (word not in set(stopwords.words('english')))]
+			preprocessed_corpus.append(filtered_text)
 			dct=initialize_gensim_dictionary([filtered_text])
 		else:
 			text = text.split()
 			filtered_text = [word for word in text if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]
+			filtered_text = [word for word in filtered_text if (word not in set(stopwords.words('english')))]
+			preprocessed_corpus.append(filtered_text)
 			add_documents_to_gensim_dictionary(dct,[filtered_text])
 	
 	gensim_corpus = [dct.doc2bow(bag_of_word.split()) for bag_of_word in texts]
-	
-	lda = LdaMallet(constants.PATH_TO_MALLET, gensim_corpus, id2word=dct,num_topics=50)
-	return {'model':lda,'corpus' : gensim_corpus}
+	if scoring:
+
+		coherence_values = []
+    	
+		for n in range(start, num_topics, step):
+			lda = LdaMallet(constants.PATH_TO_MALLET, gensim_corpus, id2word=dct, num_topics=n)
+			coherencemodel = CoherenceModel(model=lda, texts=preprocessed_corpus, dictionary=dct, coherence='c_v')
+			coherence_values.append(coherencemodel.get_coherence())
+
+		return coherence_values
+    	
+
+	else:
+		lda = LdaMallet(constants.PATH_TO_MALLET, gensim_corpus, id2word=dct,num_topics=num_topics)
+		return {'model':lda,'corpus' : gensim_corpus}
 
 
 def post_process_result_of_lda_topic_model(lda_model,gensim_corpus,document_collection):
@@ -126,10 +147,21 @@ def post_process_result_of_lda_topic_model(lda_model,gensim_corpus,document_coll
 
 def main():
 	#todo: elimination of searched terms should happen later, eliminate stop words
-	'''document_collection=blacklab.search_blacklab('<s/> <s/> (<s/> containing [lemma="naked" | lemma="undress" | lemma="strip"]) <s/> <s/>',window=0,lemma=True, include_match=True)
+	document_collection=blacklab.search_blacklab('<s/><s/> <s/> (<s/> containing [lemma="naked" | lemma="undress" | lemma="strip"]) <s/> <s/> <s/>',window=0,lemma=True, include_match=True)
 	document_collection=[match['complete_match'].strip() for match in document_collection]
-	result_lda_training = train_lda_topic_model_with_mallet(document_collection,constants.PATH_TO_MALLET,50)
-	
+
+	#result_lda_training = train_lda_topic_model_with_mallet(document_collection,constants.PATH_TO_MALLET,50)
+	result_lda_training = train_lda_topic_model_with_mallet(document_collection,constants.PATH_TO_MALLET,20,True)
+
+	limit=20; start=2; step=3;
+	x = range(start, limit, step)
+	plt.plot(x, result_lda_training)
+	plt.xlabel("Num Topics")
+	plt.ylabel("Coherence score")
+	plt.legend(("coherence_values"), loc='best')
+	plt.savefig('demo.pdf')
+
+	'''
 	text.write_json('corpus', model['corpus'])
 	model['model'].save('ldamodel')
 	text.write_json('plain_texts', results)

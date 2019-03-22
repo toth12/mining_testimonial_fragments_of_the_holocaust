@@ -135,7 +135,7 @@ def parse_response(obj,lemma, include_match = True, search_terms = None):
 	total = obj['summary']['numberOfHitsRetrieved']
 	doc_infos = obj['docInfos']
 	results = []
-
+	
 	for h in obj['hits']:
 		left = get_match_string(h['left'],search_terms = search_terms, lemma = lemma)
 		right = get_match_string(h['right'],search_terms = search_terms, lemma = lemma )
