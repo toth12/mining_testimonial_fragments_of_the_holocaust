@@ -18,6 +18,7 @@ matplotlib.use('PS')
 import matplotlib.pyplot as plt
 import pyLDAvis
 import pyLDAvis.gensim
+from gensim.models.wrappers import ldamallet
 
 
 
@@ -107,12 +108,17 @@ def train_lda_topic_model_with_mallet(texts,path_mallet, num_topics=50, scoring 
 
 	else:
 		lda = LdaMallet(constants.PATH_TO_MALLET, gensim_corpus, id2word=dct,num_topics=num_topics)
+		# from gensim.models.wrappers import ldamallet
+		#lda_model = ldamallet.malletmodel2ldamodel(lda)
+		#vis = pyLDAvis.gensim.prepare(lda_model, gensim_corpus, dct)
+		#pyLDAvis.save_html(vis , 'test.html')
 		return {'model':lda,'corpus' : gensim_corpus}
 
 
-def post_process_result_of_lda_topic_model(lda_model,gensim_corpus,document_collection):
+def post_process_result_of_lda_topic_model(lda_model,gensim_corpus,document_collection,document_collection_filtered,n_closest = 15):
 	#Prepare containers to store results
 	#Container to keep the document topic matrix
+	n_closest = - n_closest
 	document_topic_matrix=[]
 	#Container to keep topics and the closest texts to each topic
 	topic_closest_doc_with_topics_words = []
@@ -134,24 +140,64 @@ def post_process_result_of_lda_topic_model(lda_model,gensim_corpus,document_coll
 	#Iterate through the transpose of the document topic matrix
 	for i,element in enumerate(document_topic_matrix.T):
 		#Identify the id of 15 closest texts of each topic
-		closest=element.argsort(axis=0)[-15:][::-1]
+		closest=element.argsort(axis=0)[n_closest:][::-1]
 		#Create a container to keep each text with the id above
 		texts = []
 		for element in closest:
-			texts.append(document_collection[element])
+			texts.append({'matched_text':document_collection_filtered[element],'matched_text_words':document_collection[element]['match_word'],'testimony_id':document_collection[element]['testimony_id']})
 		#Append them to container
 		topic_closest_doc_with_topics_words.append({'texts':texts,'topic_words':all_topics[i]})
 	return {'topic_documents':topic_closest_doc_with_topics_words , 'document_topic_matrix' : document_topic_matrix}
 	
+def write_topics_texts_to_file(topics_texts,path_to_file):
+	output_text = ''
+	for i,element in enumerate(topics_texts):
+		topic_words =  ' '.join([str(topic) for topic in element['topic_words']])
+		output_text = output_text + str(i) + '. '+ topic_words +':' + '\n\n'
+		for f,document in enumerate(element['texts']):
+			output_text = output_text + str(f)+'. '+ document['testimony_id'] + '.\n'
+			output_text = output_text + ' Original text:\n'+document['matched_text_words'] + '\n\n'
+			output_text = output_text + ' Input text:\n'+document['matched_text'] + '\n\n'
+		output_text = output_text + '-----------------------\n\n'
+	f = open(path_to_file,'w')
+	f.write(output_text)
+	f.close()
 
+def visualize_topic_scoring(scores,limit,start,step,path_to_output_file):
+	x = range(start, limit, step)
+	plt.plot(x, scores)
+	plt.xlabel("Num Topics")
+	plt.ylabel("Coherence score")
+	plt.legend(("coherence_values"), loc='best')
+	plt.savefig(path_to_output_file)
 
 def main():
 	#todo: elimination of searched terms should happen later, eliminate stop words
-	document_collection=blacklab.search_blacklab('<s/><s/> <s/> (<s/> containing [lemma="naked" | lemma="undress" | lemma="strip"]) <s/> <s/> <s/>',window=0,lemma=True, include_match=True)
-	document_collection=[match['complete_match'].strip() for match in document_collection]
+	document_collection_original=blacklab.search_blacklab('<s/> <s/> (<s/> containing [lemma="naked" | lemma="undress" | lemma="strip"]) <s/> <s/>',window=0,lemma=True, include_match=True)
+	#use the phraser model
+	phraser_model = Phraser(Phrases.load(constants.OUTPUT_FOLDER+'phrase_model'))
+	document_collection=[' '.join(phraser_model[match['complete_match'].strip().split()]) for match in document_collection_original]
+	
+	#get rid of stop words
+	document_collection_filtered = []
+	for text in document_collection:
+		new_text = []
+		for word in text.split():
+			if (word not in set(stopwords.words('english')) and (word[0] in string.ascii_uppercase + string.ascii_lowercase)):
+				new_text.append(word)
+		document_collection_filtered.append(' '.join(new_text))
+	
 
+	
+	result_lda_training = train_lda_topic_model_with_mallet(document_collection_filtered,constants.PATH_TO_MALLET,3)
+	result=post_process_result_of_lda_topic_model(result_lda_training['model'],result_lda_training['corpus'],document_collection_original,document_collection_filtered)
+	
+	#topic_text = text.read_json('topics_texts')
+	write_topics_texts_to_file(result['topic_documents'],'test_output_topic_texts')
+
+	'''
 	#result_lda_training = train_lda_topic_model_with_mallet(document_collection,constants.PATH_TO_MALLET,50)
-	result_lda_training = train_lda_topic_model_with_mallet(document_collection,constants.PATH_TO_MALLET,50,True)
+	
 
 	limit=50; start=2; step=3;
 	x = range(start, limit, step)
@@ -161,7 +207,7 @@ def main():
 	plt.legend(("coherence_values"), loc='best')
 	plt.savefig('demo.pdf')
 
-	'''
+	
 	text.write_json('corpus', model['corpus'])
 	model['model'].save('ldamodel')
 	text.write_json('plain_texts', results)
@@ -169,18 +215,7 @@ def main():
 	post_processed = post_process_result_of_lda_topic_model(result_lda_training['model'],result_lda_training['corpus'],document_collection)
 	'''
 
-	topics_texts = text.read_json('topics_texts')
 	
-	output_text = ''
-	for i,element in enumerate(topics_texts):
-		topic_words =  ' '.join([str(topic) for topic in element['topic_words']])
-		output_text = output_text + str(i) + '. '+ topic_words +':' + '\n\n'
-		for document in element['texts']:
-			output_text = output_text + document + '\n\n\n'
-		output_text = output_text + '-----------------------\n\n'
-	f = open('output.txt','w')
-	f.write(output_text)
-	f.close()
 	pdb.set_trace()
 		
 	

@@ -57,6 +57,7 @@ def search_blacklab(query,window=5,document_id=None,lemma=False, include_match =
 	#first find the total number of results available (number set to zero so that nothing is actually returned just the number of docs)
 	result = request_url(query+'&number=0')
 	total = get_total_numbers(result)
+	total = 20
 	i = 0
 	final_result=[]
 	for i in range(0,total,20):
@@ -140,11 +141,17 @@ def parse_response(obj,lemma, include_match = True, search_terms = None):
 		left = get_match_string(h['left'],search_terms = search_terms, lemma = lemma)
 		right = get_match_string(h['right'],search_terms = search_terms, lemma = lemma )
 		match = get_match_string(h['match'],search_terms = search_terms, lemma = lemma)
+
+		left_original = get_match_string(h['left'],search_terms = search_terms)
+		right_original = get_match_string(h['right'],search_terms = search_terms)
+		match_original = get_match_string(h['match'],search_terms = search_terms)
+
 		complete_match=left+match+right
+		complete_match_word = left_original+match_original+right_original
 		if include_match:
 			results.append({
 				'left': left,
-				'match': complete_match,
+				'match_word' : complete_match_word,
 				'right': right,
 				'complete_match':complete_match,
 				'testimony_id': get_testimony_meta(h, 'testimony_id', doc_infos),
@@ -156,6 +163,7 @@ def parse_response(obj,lemma, include_match = True, search_terms = None):
 			results.append({
 								'left': left,
 								'right': right,
+								'match_word' : complete_match_word	,
 								'complete_match':left + right,
 								'testimony_id': get_testimony_meta(h, 'testimony_id', doc_infos),
 								'shelfmark': get_testimony_meta(h, 'shelfmark', doc_infos),

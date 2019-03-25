@@ -1,0 +1,327 @@
+0. 0 0.100*"naked" + 0.062*"time" + 0.054*"walk" + 0.038*"home" + 0.038*"day" + 0.031*"Auschwitz" + 0.023*"kind" + 0.023*"interviewer_2" + 0.023*"true" + 0.023*"arrive":
+
+0. HVT-107.
+ Original text:
+There were about 35 blocks . There were one million women -- looked all alike . No hair , some of them naked -- and my sister-in-law says hello to me . She says I 'm in block 16 . We arrived three days ago , and I have my three sisters with me . 
+
+ Input text:
+block one million woman look alike hair naked sister-in-law say hello I say I block arrive three day ago I three sister I
+
+1. HVT-1.
+ Original text:
+And -- and then afterwards , they asked us to strip , and we were shaved . I mean , our heads and body were shaved . And we were herded through -- past soldiers , so now I was , like , 13 or 14 , and I was walking naked past soldiers all the time , which -- really was -- after the first day or so , you get used to it . But , um -- and then we were herded into a bathhouse with overhead showers . By that time we knew that the gas chambers were dressed up as shower rooms . 
+
+ Input text:
+afterwards ask strip shave I mean head body shave herd past soldier I like I walk naked past soldier time really first day get use um herd_into bathhouse overhead shower time know gas_chamber dress shower_room
+
+2. HVT-102.
+ Original text:
+Tell the soldier who was standing outside with a gun on his shoulder . Tell him that I examined you . Afterwards , all the women were sent out to the field , stripped half naked , thousands of them . And the soldiers were lifting up the breasts one by one , all the women , to search for diamonds under their breasts . Maybe they pasted a diamond there . 
+
+ Input text:
+tell soldier stand outside gun shoulder tell I examine afterwards woman send field strip half naked thousand soldier lift breast one one woman search diamond breast maybe paste diamond
+
+3. HVT-102.
+ Original text:
+Because there were so many people arrived at that time when we came that they just simply did n't have enough clothes for everybody . So many times , I just came home without anything on me . One day , as we walked home and went to the front of the camp where the men were , this one prisoner saw me -- Hungarian by the way -- saw me walking naked . And they worked with clothes , with clothes in that camp , sorted clothes or something . INTERVIEWER : You mean you walked around naked ? 
+
+ Input text:
+many people arrive time come simply enough clothes everybody many time I come home without anything I one day walk home go front camp man one prisoner see I hungarian way see I walk naked work clothes clothes camp sort clothes something interviewer mean walk_around naked
+
+4. HVT-1.
+ Original text:
+SUBJECT : Oh , I remember the vacations we used to spend together . We used to go swimming in the river . And I remember this younger girl once doing somersaults when she was naked . [ LAUGHS ] Which was n't -- you know . It was kind of funny incident . 
+
+ Input text:
+SUBJECT oh I remember vacation use spend together use go swim river I remember younger girl somersault naked know kind funny_incident
+
+5. HVT-1.
+ Original text:
+And that was -- that 's where they were . We saved nothing . We came back naked . INTERVIEWER 2 : Are there any physical problems that you have sustained now as a result of this kind of abuse ? SUBJECT : Well , I -- I had a -- I had a slipped disk , which I had operated fairly soon after -- you know , after the war , which is fine now . 
+
+ Input text:
+save nothing come back naked interviewer_2 physical problem sustain result kind abuse SUBJECT well I I I slipped disk I operate fairly_soon know war fine
+
+6. HVT-1.
+ Original text:
+These were the kind of reception rooms . And there was cement , cement floors . And -- and then afterwards , they asked us to strip , and we were shaved . I mean , our heads and body were shaved . And we were herded through -- past soldiers , so now I was , like , 13 or 14 , and I was walking naked past soldiers all the time , which -- really was -- after the first day or so , you get used to it . 
+
+ Input text:
+kind reception_room cement cement_floor afterwards ask strip shave I mean head body shave herd past soldier I like I walk naked past soldier time really first day get use
+
+7. HVT-102.
+ Original text:
+And then you would get a rag . You would really just call it a rag . And for some reason , they thought that we have to go through this bathhouse so often , many times I would come back from the bathhouse completely naked , absolutely no clothes . Because there were so many people arrived at that time when we came that they just simply did n't have enough clothes for everybody . So many times , I just came home without anything on me . 
+
+ Input text:
+would get rag would really call rag reason think go bathhouse often many time I would come back bathhouse completely_naked absolutely clothes many people arrive time come simply enough clothes everybody many time I come home without anything I
+
+8. HVT-102.
+ Original text:
+And I was maybe did n't shove enough , was maybe too weak to rush . So those who did n't could n't get anything . So I came home completely naked , and this man , he was really waited at the fence for those girls who did n't get any clothes . And he threw me a dress . And he said there 's a piece of bread in the pocket . 
+
+ Input text:
+I maybe shove enough maybe too_weak rush could get anything I come home completely_naked man really wait fence girl get clothes throw I dress say piece bread pocket
+
+9. HVT-1.
+ Original text:
+Was that true , you know ? He had brought her shoes and socks , which was a fortune . Uh , they had stripped us at that stage . And , uh , so I went to her and asked for confirmation . Did he -- had he confirmed that that was indeed true ? 
+
+ Input text:
+true know bring shoe sock fortune uh strip stage uh I go ask confirmation confirm indeed true
+
+10. HVT-102.
+ Original text:
+One day , as we walked home and went to the front of the camp where the men were , this one prisoner saw me -- Hungarian by the way -- saw me walking naked . And they worked with clothes , with clothes in that camp , sorted clothes or something . INTERVIEWER : You mean you walked around naked ? SUBJECT 1 : Yes . INTERVIEWER : Did many people ? 
+
+ Input text:
+one day walk home go front camp man one prisoner see I hungarian way see I walk naked work clothes clothes camp sort clothes something interviewer mean walk_around naked subject_1 yes interviewer many people
+
+11. HVT-104.
+ Original text:
+Then , the few pictures I had from my family was destroyed , right , in this camp , too . Everything was taken . We had to undress completely . They shaved your hair . You could not have anything in your possession , you know . 
+
+ Input text:
+picture I family destroy right camp everything take undress_completely shave hair could anything possession know
+
+12. HVT-102.
+ Original text:
+I mean , not internals obviously , but did you have to undergo examinations -- SUBJECT 2 : Yeah , they checked before -- as I said , when we went from Auschwitz to Warsaw , they checked us again . We had to strip , and then they checked us if you have anything on you . INTERVIEWER : Were you aware that people were being exterminated ? SUBJECT 2 : When we were in Auschwitz , I would n't believe it was a gas chamber . 
+
+ Input text:
+I mean internal obviously undergo examination subject_2 yeah check I say go Auschwitz Warsaw check strip check anything interviewer aware people exterminate subject_2 Auschwitz I would believe gas_chamber
+
+13. HVT-102.
+ Original text:
+And then by such miracle that would take me a while to explain , somebody happened to know us from another city , who happened to vacation in another city . She was [ INAUDIBLE ] . Saw my sister , and she yelled over to me , in a place where you saw thousands of girls naked , we went to the bathhouse . She called over to me and she said , Eva , I saw your sister . And then I knew that where my sister is in what camp , I begged the block leaders to let me go over there . 
+
+ Input text:
+miracle would take I explain somebody happen know another city happen vacation another city see sister yell I place see thousand girl naked go bathhouse call I say Eva I see sister I know sister camp I beg block_leader let I go
+
+14. HVT-102.
+ Original text:
+It was very dark , because they were bombing around Auschwitz . And so they kept the camp very , very dark at night . So they reselected us with one little flickering light , of course , undressed , completely naked . And they could n't see my body . If they would have seen it , I never would have gotten into the transport . 
+
+ Input text:
+dark bombing around Auschwitz keep camp dark at_night reselect one little flickering_light course undressed completely_naked could see body would see I never would get transport
+
+-----------------------
+
+1. 1 0.097*"clothes" + 0.068*"camp" + 0.068*"people" + 0.058*"interviewer" + 0.049*"work" + 0.039*"bathhouse" + 0.039*"man" + 0.029*"subject_2" + 0.029*"call" + 0.019*"city":
+
+0. HVT-102.
+ Original text:
+One day , as we walked home and went to the front of the camp where the men were , this one prisoner saw me -- Hungarian by the way -- saw me walking naked . And they worked with clothes , with clothes in that camp , sorted clothes or something . INTERVIEWER : You mean you walked around naked ? SUBJECT 1 : Yes . INTERVIEWER : Did many people ? 
+
+ Input text:
+one day walk home go front camp man one prisoner see I hungarian way see I walk naked work clothes clothes camp sort clothes something interviewer mean walk_around naked subject_1 yes interviewer many people
+
+1. HVT-104.
+ Original text:
+Because they did n't have a choice . But some of the people wanted to be there , you know , and help us poor people going into the chambers . It was called , you know , that they have to undress themself and take a bath . And I want you to know , as many years now , 35 years went by , now , I personally feel it 's more difficult now than 35 years ago . The smell of human flesh comes back to your nostrils . 
+
+ Input text:
+choice people want know help poor people go chamber call know undress_themself take bath I want know many year year go I personally feel difficult year_ago smell human_flesh come back nostril
+
+2. HVT-102.
+ Original text:
+Because there were so many people arrived at that time when we came that they just simply did n't have enough clothes for everybody . So many times , I just came home without anything on me . One day , as we walked home and went to the front of the camp where the men were , this one prisoner saw me -- Hungarian by the way -- saw me walking naked . And they worked with clothes , with clothes in that camp , sorted clothes or something . INTERVIEWER : You mean you walked around naked ? 
+
+ Input text:
+many people arrive time come simply enough clothes everybody many time I come home without anything I one day walk home go front camp man one prisoner see I hungarian way see I walk naked work clothes clothes camp sort clothes something interviewer mean walk_around naked
+
+3. HVT-102.
+ Original text:
+And then you would get a rag . You would really just call it a rag . And for some reason , they thought that we have to go through this bathhouse so often , many times I would come back from the bathhouse completely naked , absolutely no clothes . Because there were so many people arrived at that time when we came that they just simply did n't have enough clothes for everybody . So many times , I just came home without anything on me . 
+
+ Input text:
+would get rag would really call rag reason think go bathhouse often many time I would come back bathhouse completely_naked absolutely clothes many people arrive time come simply enough clothes everybody many time I come home without anything I
+
+4. HVT-102.
+ Original text:
+And then by such miracle that would take me a while to explain , somebody happened to know us from another city , who happened to vacation in another city . She was [ INAUDIBLE ] . Saw my sister , and she yelled over to me , in a place where you saw thousands of girls naked , we went to the bathhouse . She called over to me and she said , Eva , I saw your sister . And then I knew that where my sister is in what camp , I begged the block leaders to let me go over there . 
+
+ Input text:
+miracle would take I explain somebody happen know another city happen vacation another city see sister yell I place see thousand girl naked go bathhouse call I say Eva I see sister I know sister camp I beg block_leader let I go
+
+5. HVT-104.
+ Original text:
+He also dared to do and to put on a pair of working pants and the pants were from this material , too . And we went in on an empty U-Boat . And he asked me to undress myself . And he gave me a working pair of pants up to here . And he brought me in -- in the working place for a shower . 
+
+ Input text:
+also dare put pair work pants pants material go empty u-boat ask I undress give I work pair pants bring I work place shower
+
+6. HVT-102.
+ Original text:
+And he wanted to be good to me . And he fixed it to me , for me . INTERVIEWER : Mr. Schlesinger , I do n't understand how you were able to hold onto those glasses , having gone through the procedures at Auschwitz of being stripped and all that . SUBJECT 2 : Taking away everything ? INTERVIEWER : Yes . 
+
+ Input text:
+want good I fix I I interviewer Mr._Schlesinger I understand able hold_onto glass go procedure Auschwitz strip subject_2 take away everything interviewer yes
+
+7. HVT-104.
+ Original text:
+Then , the few pictures I had from my family was destroyed , right , in this camp , too . Everything was taken . We had to undress completely . They shaved your hair . You could not have anything in your possession , you know . 
+
+ Input text:
+picture I family destroy right camp everything take undress_completely shave hair could anything possession know
+
+8. HVT-102.
+ Original text:
+And I was maybe did n't shove enough , was maybe too weak to rush . So those who did n't could n't get anything . So I came home completely naked , and this man , he was really waited at the fence for those girls who did n't get any clothes . And he threw me a dress . And he said there 's a piece of bread in the pocket . 
+
+ Input text:
+I maybe shove enough maybe too_weak rush could get anything I come home completely_naked man really wait fence girl get clothes throw I dress say piece bread pocket
+
+9. HVT-102.
+ Original text:
+I mean , not internals obviously , but did you have to undergo examinations -- SUBJECT 2 : Yeah , they checked before -- as I said , when we went from Auschwitz to Warsaw , they checked us again . We had to strip , and then they checked us if you have anything on you . INTERVIEWER : Were you aware that people were being exterminated ? SUBJECT 2 : When we were in Auschwitz , I would n't believe it was a gas chamber . 
+
+ Input text:
+I mean internal obviously undergo examination subject_2 yeah check I say go Auschwitz Warsaw check strip check anything interviewer aware people exterminate subject_2 Auschwitz I would believe gas_chamber
+
+10. HVT-1.
+ Original text:
+SUBJECT : Oh , I remember the vacations we used to spend together . We used to go swimming in the river . And I remember this younger girl once doing somersaults when she was naked . [ LAUGHS ] Which was n't -- you know . It was kind of funny incident . 
+
+ Input text:
+SUBJECT oh I remember vacation use spend together use go swim river I remember younger girl somersault naked know kind funny_incident
+
+11. HVT-107.
+ Original text:
+There were about 35 blocks . There were one million women -- looked all alike . No hair , some of them naked -- and my sister-in-law says hello to me . She says I 'm in block 16 . We arrived three days ago , and I have my three sisters with me . 
+
+ Input text:
+block one million woman look alike hair naked sister-in-law say hello I say I block arrive three day ago I three sister I
+
+12. HVT-1.
+ Original text:
+Change of tape SUBJECT : We -- we stayed together , the group of 200 of us who had been selected from the -- from that transport , and we were all young , healthy people . I mean , we had been selected once over again when we were in the bath house , we had been selected naked . You know , that 's true . And again , they wanted to send my mother off , and they -- and then they asked her whether she had somebody there , and she said she had a daughter . 
+
+ Input text:
+Change tape SUBJECT stay together group select transport young healthy people I mean select bath house select naked know true want send my_mother ask whether somebody say daughter
+
+13. HVT-102.
+ Original text:
+It was very dark , because they were bombing around Auschwitz . And so they kept the camp very , very dark at night . So they reselected us with one little flickering light , of course , undressed , completely naked . And they could n't see my body . If they would have seen it , I never would have gotten into the transport . 
+
+ Input text:
+dark bombing around Auschwitz keep camp dark at_night reselect one little flickering_light course undressed completely_naked could see body would see I never would get transport
+
+14. HVT-1.
+ Original text:
+Was that true , you know ? He had brought her shoes and socks , which was a fortune . Uh , they had stripped us at that stage . And , uh , so I went to her and asked for confirmation . Did he -- had he confirmed that that was indeed true ? 
+
+ Input text:
+true know bring shoe sock fortune uh strip stage uh I go ask confirmation confirm indeed true
+
+-----------------------
+
+2. 2 0.066*"soldier" + 0.057*"shave" + 0.057*"strip" + 0.057*"past" + 0.038*"SUBJECT" + 0.038*"back" + 0.038*"sister" + 0.028*"check" + 0.028*"select" + 0.028*"body":
+
+0. HVT-1.
+ Original text:
+INTERVIEWER 2 : Back to you as a young girl had to walk past soldiers , past men . SUBJECT : Yeah . INTERVIEWER 2 : Completely shaved , naked . Well , we ca n't . We have to do the um - but I want the answer . 
+
+ Input text:
+interviewer_2 back young_girl walk past soldier past man SUBJECT yeah interviewer_2 completely shave naked well um I want answer
+
+1. HVT-104.
+ Original text:
+He also dared to do and to put on a pair of working pants and the pants were from this material , too . And we went in on an empty U-Boat . And he asked me to undress myself . And he gave me a working pair of pants up to here . And he brought me in -- in the working place for a shower . 
+
+ Input text:
+also dare put pair work pants pants material go empty u-boat ask I undress give I work pair pants bring I work place shower
+
+2. HVT-1.
+ Original text:
+These were the kind of reception rooms . And there was cement , cement floors . And -- and then afterwards , they asked us to strip , and we were shaved . I mean , our heads and body were shaved . And we were herded through -- past soldiers , so now I was , like , 13 or 14 , and I was walking naked past soldiers all the time , which -- really was -- after the first day or so , you get used to it . 
+
+ Input text:
+kind reception_room cement cement_floor afterwards ask strip shave I mean head body shave herd past soldier I like I walk naked past soldier time really first day get use
+
+3. HVT-1.
+ Original text:
+Change of tape SUBJECT : We -- we stayed together , the group of 200 of us who had been selected from the -- from that transport , and we were all young , healthy people . I mean , we had been selected once over again when we were in the bath house , we had been selected naked . You know , that 's true . And again , they wanted to send my mother off , and they -- and then they asked her whether she had somebody there , and she said she had a daughter . 
+
+ Input text:
+Change tape SUBJECT stay together group select transport young healthy people I mean select bath house select naked know true want send my_mother ask whether somebody say daughter
+
+4. HVT-102.
+ Original text:
+It was very dark , because they were bombing around Auschwitz . And so they kept the camp very , very dark at night . So they reselected us with one little flickering light , of course , undressed , completely naked . And they could n't see my body . If they would have seen it , I never would have gotten into the transport . 
+
+ Input text:
+dark bombing around Auschwitz keep camp dark at_night reselect one little flickering_light course undressed completely_naked could see body would see I never would get transport
+
+5. HVT-1.
+ Original text:
+And that was -- that 's where they were . We saved nothing . We came back naked . INTERVIEWER 2 : Are there any physical problems that you have sustained now as a result of this kind of abuse ? SUBJECT : Well , I -- I had a -- I had a slipped disk , which I had operated fairly soon after -- you know , after the war , which is fine now . 
+
+ Input text:
+save nothing come back naked interviewer_2 physical problem sustain result kind abuse SUBJECT well I I I slipped disk I operate fairly_soon know war fine
+
+6. HVT-1.
+ Original text:
+And -- and then afterwards , they asked us to strip , and we were shaved . I mean , our heads and body were shaved . And we were herded through -- past soldiers , so now I was , like , 13 or 14 , and I was walking naked past soldiers all the time , which -- really was -- after the first day or so , you get used to it . But , um -- and then we were herded into a bathhouse with overhead showers . By that time we knew that the gas chambers were dressed up as shower rooms . 
+
+ Input text:
+afterwards ask strip shave I mean head body shave herd past soldier I like I walk naked past soldier time really first day get use um herd_into bathhouse overhead shower time know gas_chamber dress shower_room
+
+7. HVT-102.
+ Original text:
+And he wanted to be good to me . And he fixed it to me , for me . INTERVIEWER : Mr. Schlesinger , I do n't understand how you were able to hold onto those glasses , having gone through the procedures at Auschwitz of being stripped and all that . SUBJECT 2 : Taking away everything ? INTERVIEWER : Yes . 
+
+ Input text:
+want good I fix I I interviewer Mr._Schlesinger I understand able hold_onto glass go procedure Auschwitz strip subject_2 take away everything interviewer yes
+
+8. HVT-1.
+ Original text:
+Was that true , you know ? He had brought her shoes and socks , which was a fortune . Uh , they had stripped us at that stage . And , uh , so I went to her and asked for confirmation . Did he -- had he confirmed that that was indeed true ? 
+
+ Input text:
+true know bring shoe sock fortune uh strip stage uh I go ask confirmation confirm indeed true
+
+9. HVT-102.
+ Original text:
+I mean , not internals obviously , but did you have to undergo examinations -- SUBJECT 2 : Yeah , they checked before -- as I said , when we went from Auschwitz to Warsaw , they checked us again . We had to strip , and then they checked us if you have anything on you . INTERVIEWER : Were you aware that people were being exterminated ? SUBJECT 2 : When we were in Auschwitz , I would n't believe it was a gas chamber . 
+
+ Input text:
+I mean internal obviously undergo examination subject_2 yeah check I say go Auschwitz Warsaw check strip check anything interviewer aware people exterminate subject_2 Auschwitz I would believe gas_chamber
+
+10. HVT-102.
+ Original text:
+Tell the soldier who was standing outside with a gun on his shoulder . Tell him that I examined you . Afterwards , all the women were sent out to the field , stripped half naked , thousands of them . And the soldiers were lifting up the breasts one by one , all the women , to search for diamonds under their breasts . Maybe they pasted a diamond there . 
+
+ Input text:
+tell soldier stand outside gun shoulder tell I examine afterwards woman send field strip half naked thousand soldier lift breast one one woman search diamond breast maybe paste diamond
+
+11. HVT-104.
+ Original text:
+Because they did n't have a choice . But some of the people wanted to be there , you know , and help us poor people going into the chambers . It was called , you know , that they have to undress themself and take a bath . And I want you to know , as many years now , 35 years went by , now , I personally feel it 's more difficult now than 35 years ago . The smell of human flesh comes back to your nostrils . 
+
+ Input text:
+choice people want know help poor people go chamber call know undress_themself take bath I want know many year year go I personally feel difficult year_ago smell human_flesh come back nostril
+
+12. HVT-104.
+ Original text:
+Then , the few pictures I had from my family was destroyed , right , in this camp , too . Everything was taken . We had to undress completely . They shaved your hair . You could not have anything in your possession , you know . 
+
+ Input text:
+picture I family destroy right camp everything take undress_completely shave hair could anything possession know
+
+13. HVT-1.
+ Original text:
+SUBJECT : Oh , I remember the vacations we used to spend together . We used to go swimming in the river . And I remember this younger girl once doing somersaults when she was naked . [ LAUGHS ] Which was n't -- you know . It was kind of funny incident . 
+
+ Input text:
+SUBJECT oh I remember vacation use spend together use go swim river I remember younger girl somersault naked know kind funny_incident
+
+14. HVT-102.
+ Original text:
+And I was maybe did n't shove enough , was maybe too weak to rush . So those who did n't could n't get anything . So I came home completely naked , and this man , he was really waited at the fence for those girls who did n't get any clothes . And he threw me a dress . And he said there 's a piece of bread in the pocket . 
+
+ Input text:
+I maybe shove enough maybe too_weak rush could get anything I come home completely_naked man really wait fence girl get clothes throw I dress say piece bread pocket
+
+-----------------------
+
