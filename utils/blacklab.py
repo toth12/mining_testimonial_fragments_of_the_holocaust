@@ -57,7 +57,6 @@ def search_blacklab(query,window=5,document_id=None,lemma=False, include_match =
 	#first find the total number of results available (number set to zero so that nothing is actually returned just the number of docs)
 	result = request_url(query+'&number=0')
 	total = get_total_numbers(result)
-	total = 20
 	i = 0
 	final_result=[]
 	for i in range(0,total,20):

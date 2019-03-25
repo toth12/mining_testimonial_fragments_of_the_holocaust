@@ -149,8 +149,12 @@ def post_process_result_of_lda_topic_model(lda_model,gensim_corpus,document_coll
 		topic_closest_doc_with_topics_words.append({'texts':texts,'topic_words':all_topics[i]})
 	return {'topic_documents':topic_closest_doc_with_topics_words , 'document_topic_matrix' : document_topic_matrix}
 	
-def write_topics_texts_to_file(topics_texts,path_to_file):
+def write_topics_texts_to_file(topics_texts,path_to_file,query_parameters = None):
+
 	output_text = ''
+	if query_parameters:
+		for element in query_parameters:
+			output_text = output_text + str(element[0])+': '+str(element[1]) + '\n'
 	for i,element in enumerate(topics_texts):
 		topic_words =  ' '.join([str(topic) for topic in element['topic_words']])
 		output_text = output_text + str(i) + '. '+ topic_words +':' + '\n\n'
