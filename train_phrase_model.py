@@ -15,8 +15,10 @@ from utils import gensim_utils, text, blacklab
 
 
 def main(output_filename):
+	print ('Training phrase model began')
 	phrase_model=gensim_utils.build_gensim_phrase_model_from_sentences(blacklab.iterable_results('<s/>',lemma=True))	
 	phrase_model.save(output_filename)
+	print ('Training phrase model finished')
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()

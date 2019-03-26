@@ -17,6 +17,8 @@ from utils import gensim_utils, text, blacklab
 def main(output_filename,path_to_phrase_model,window=5):
 	#ids=text.read_json(constants.INPUT_FOLDER+'testimony_ids.json')
 	#ids = [element['testimony_id'] for element in ids][0:16]
+	
+	print ('Training synset model began')
 	if path_to_phrase_model:
 		model=gensim_utils.build_gensim_synset_model_from_sentences(blacklab.iterable_results('<s/>',lemma=True, path_to_phrase_model=constants.OUTPUT_FOLDER+"phrase_model"),window = window)
 	
@@ -28,6 +30,7 @@ def main(output_filename,path_to_phrase_model,window=5):
 	
 	print (len(cc))
 	
+	print ('Training synset model finished')
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()

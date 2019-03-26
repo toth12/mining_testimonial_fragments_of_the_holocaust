@@ -265,9 +265,6 @@ class iterable_results(object):
 		if self.ids is not None:
 
 			for index,i in enumerate(self.ids):
-				print (index)
-				print (len(self.ids))
-				print (i)
 				results=search_blacklab(self.search_pattern,document_id=i,window=self.window,lemma=self.lemma)
 				for result in results:
 					if self.path_to_phrase_model is not None:
@@ -285,5 +282,4 @@ class iterable_results(object):
 
 def main():
 	response = search_blacklab('<s/> (<s/> containing [lemma="lllllllllllll"]) <s/>',window=0,lemma=True)
-	pdb.set_trace()
 	print(len(response))	

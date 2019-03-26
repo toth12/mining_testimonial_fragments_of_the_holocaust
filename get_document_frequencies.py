@@ -7,6 +7,7 @@ import pandas as pd
 
 
 def main():
+	print ('Getting document frequencies began')
 	ids=text.read_json(constants.INPUT_FOLDER+'testimony_ids.json')
 
 	#Verbs
@@ -15,8 +16,7 @@ def main():
 		results=blacklab.search_blacklab('[pos="V.*"]',window=0,lemma=True,document_id=element['testimony_id'])
 		verbs=[[match['complete_match'].strip() for match in results]]
 		
-		print ('Verbs')
-		print (i)
+		
 		if i==0:
 			dct=gensim_utils.initialize_gensim_dictionary(verbs)
 		else:
@@ -36,8 +36,7 @@ def main():
 
 		results=blacklab.search_blacklab('[pos="JJ.*"]',window=0,lemma=True,document_id=element['testimony_id'])
 		adjectives=[[match['complete_match'].strip() for match in results]]
-		print ('Adjectives')
-		print (i)
+		
 		if i==0:
 			dct=gensim_utils.initialize_gensim_dictionary(adjectives)
 		else:
@@ -59,8 +58,7 @@ def main():
 
 		results=blacklab.search_blacklab('[pos="NN.*"]',window=0,lemma=True,document_id=element['testimony_id'])
 		nouns=[[match['complete_match'].strip() for match in results]]
-		print ('Nouns')
-		print (i)
+		
 		if i==0:
 			dct=gensim_utils.initialize_gensim_dictionary(nouns)
 		else:
@@ -72,7 +70,7 @@ def main():
 	dfObj=gensim_utils.get_document_frequency_in_dictionary(dts,as_pandas_df=True)
 	df3 = dfObj[dfObj[1] > dfObj[1].median()]
 	df3.to_csv(constants.OUTPUT_FOLDER+'all_nouns_filtered_no_below_10_no_above_95_percent.csv')
-
+	print ('Getting document frequencies finished')
 if __name__ == '__main__':
 	main()
 

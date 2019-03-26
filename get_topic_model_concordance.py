@@ -14,6 +14,7 @@ import inspect
 
 
 def main(query,output_filename,window=50,topicn=50):
+	print ('Training lda model began')
 	frame = inspect.currentframe()
 	args, _, _, values = inspect.getargvalues(frame)
 	query_parameters = [(i, values[i]) for i in args]
@@ -38,7 +39,7 @@ def main(query,output_filename,window=50,topicn=50):
 
 	#topic_text = text.read_json('topics_texts')
 	gensim_utils.write_topics_texts_to_file(result['topic_documents'],constants.OUTPUT_FOLDER+output_filename,query_parameters = query_parameters)
-
+	print ('Training lda model finished')
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	
@@ -62,4 +63,6 @@ if __name__ == '__main__':
 	
 	
 	main(args.query,args.output,args.window,args.topicn)
+
+
 	
