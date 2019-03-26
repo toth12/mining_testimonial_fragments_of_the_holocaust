@@ -57,8 +57,14 @@ def trim_rule(word,count,min_count):
 	if (word[0] not in string.ascii_uppercase + string.ascii_lowercase) or (word in set(stopwords.words('english')) ):
 		return utils.RULE_DISCARD
 
-def initialize_gensim_synset_model_with_dictionary(dictionary):
-	model = Word2Vec().build_vocab_from_freq(dictionary)
+def initialize_gensim_synset_model_with_dictionary(dictionary,window):
+	look_up=dictionary.dfs
+	result= []
+	for i,word in enumerate(dictionary):
+		result.append([dictionary[word]])
+	model = Word2Vec(min_count=1,window = int(window))
+	model.build_vocab(result,trim_rule=trim_rule)
+	pdb.set_trace()
 	return model
 
 def find_similar_terms(term,path_to_model,n=10):
@@ -82,17 +88,19 @@ def train_lda_topic_model_with_mallet(texts,path_mallet, num_topics=50, scoring 
 		if i==0:
 			#todo filter here
 			text = text.split()
-			filtered_text = [word for word in text if (word[0] in string.ascii_uppercase + string.ascii_lowercase)]
-			filtered_text = [word for word in filtered_text if (word not in set(stopwords.words('english')))]
-			preprocessed_corpus.append(filtered_text)
-			dct=initialize_gensim_dictionary([filtered_text])
+			#Additional filtering steps
+			#filtered_text = [word for word in text if (word[0] in string.ascii_uppercase + string.ascii_lowercase)]
+			#filtered_text = [word for word in filtered_text if (word not in set(stopwords.words('english')))]
+			#preprocessed_corpus.append(filtered_text)
+			dct=initialize_gensim_dictionary([text])
 		else:
 			text = text.split()
-			filtered_text = [word for word in text if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]
-			filtered_text = [word for word in filtered_text if (word not in set(stopwords.words('english')))]
-			preprocessed_corpus.append(filtered_text)
-			add_documents_to_gensim_dictionary(dct,[filtered_text])
-	
+			#Additional filtering steps
+			#filtered_text = [word for word in text if ((word[0] in string.ascii_uppercase + string.ascii_lowercase))]
+			#filtered_text = [word for word in filtered_text if (word not in set(stopwords.words('english')))]
+			#preprocessed_corpus.append(filtered_text)
+			add_documents_to_gensim_dictionary(dct,[text])
+	#this is problematic here, I should not use texts when building the gensim corpus
 	gensim_corpus = [dct.doc2bow(bag_of_word.split()) for bag_of_word in texts]
 	if scoring:
 
