@@ -49,7 +49,7 @@ def load_gensim_dictionary_model(path_to_gensim_dictionary_model):
 	dct=Dictionary.load(path_to_gensim_dictionary_model)
 	return dct
 
-def build_gensim_synset_model_from_sentences(sentences):
+def build_gensim_synset_model_from_sentences(sentences,window=5):
 	model = Word2Vec(sentences, size=100, window=5, min_count=5, workers=4,trim_rule=trim_rule)
 	return model
 
@@ -176,12 +176,6 @@ def visualize_topic_scoring(scores,limit,start,step,path_to_output_file):
 	plt.savefig(path_to_output_file)
 
 def main():
-<<<<<<< HEAD
-	ids=text.read_json(constants.INPUT_FOLDER+'testimony_ids.json')
-	ids = [element['testimony_id'] for element in ids]
-	phrase_model=build_gensim_phrase_model_from_sentences(blacklab.iterable_results('<s/>',document_ids=ids,lemma=True))	
-	phrase_model.save(constants.OUTPUT_FOLDER+"phrase_model")
-=======
 	#todo: elimination of searched terms should happen later, eliminate stop words
 	document_collection_original=blacklab.search_blacklab('<s/> <s/> (<s/> containing [lemma="naked" | lemma="undress" | lemma="strip"]) <s/> <s/>',window=0,lemma=True, include_match=True)
 	#use the phraser model
@@ -197,7 +191,6 @@ def main():
 				new_text.append(word)
 		document_collection_filtered.append(' '.join(new_text))
 	
->>>>>>> train_topic_model
 
 	
 	result_lda_training = train_lda_topic_model_with_mallet(document_collection_filtered,constants.PATH_TO_MALLET,3)
