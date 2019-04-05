@@ -13,7 +13,7 @@ def main():
 	#All tokens except punctuation
 	for i,element in enumerate(ids):
 
-		results=blacklab.iterable_results('<s/>',lemma=True, path_to_phrase_model=constants.OUTPUT_FOLDER+"phrase_model_test",document_ids = [element['testimony_id']],window = 0)
+		results=blacklab.iterable_results('<s/>',lemma=True, path_to_phrase_model=constants.OUTPUT_FOLDER+"phrase_model",document_ids = [element['testimony_id']],window = 0)
 		#Get all words from the document and represent each document as a bag of words
 		all_words=[[word for sentence in results for word in sentence]]
 
@@ -24,10 +24,10 @@ def main():
 
 	dct.save(constants.OUTPUT_FOLDER+'gensimdictionary_all_words_with_phrases')
 	#if one wants to filter them
-	#dts=gensim_utils.load_gensim_dictionary_model(constants.OUTPUT_FOLDER+'gensimdictionary_all_words_with_phrases')
-	#dts.filter_extremes(no_below=2, no_above=0.95)
+	dts=gensim_utils.load_gensim_dictionary_model(constants.OUTPUT_FOLDER+'gensimdictionary_all_words_with_phrases')
+	dts.filter_extremes(no_below=10, no_above=0.95)
 
-	#dts.save(constants.OUTPUT_FOLDER+'gensimdictionary_all_words_with_phrases_filtered_no_below_10_no_above_095')
+	dts.save(constants.OUTPUT_FOLDER+'gensimdictionary_all_words_with_phrases_filtered_no_below_10_no_above_095')
 
 	#Verbs
 	for i,element in enumerate(ids):

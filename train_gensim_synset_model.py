@@ -42,7 +42,7 @@ def main(output_filename,path_to_phrase_model,window=5):
 
 	#All tokens except punctuation
 
-	for i,element in enumerate(ids):
+	for i,element in enumerate():
 		if path_to_phrase_model:
 			sentences=blacklab.iterable_results('<s/>',lemma=True, path_to_phrase_model=constants.OUTPUT_FOLDER+"phrase_model",window = 0,document_ids=[element['testimony_id']])
 			sentences = list(sentences)
@@ -79,7 +79,5 @@ if __name__ == '__main__':
 	
 	main(args.output,args.path_to_phrase_model,args.window)
 
-	#Data/Output/phrase_model
-
-	#python3 train_gensim_synset_model.py -o synset_model_test -ppm Data/Output/phrase_model_test
+	
 	
