@@ -63,8 +63,7 @@ def initialize_gensim_synset_model_with_dictionary(dictionary,window):
 	for i,word in enumerate(dictionary):
 		result.append([dictionary[word]])
 	model = Word2Vec(min_count=1,window = int(window))
-	model.build_vocab(result,trim_rule=trim_rule)
-	pdb.set_trace()
+	model.build_vocab(result)
 	return model
 
 def find_similar_terms(term,path_to_model,n=10):
