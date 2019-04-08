@@ -42,7 +42,7 @@ def main(output_filename,path_to_phrase_model,window=5):
 
 	#All tokens except punctuation
 
-	for i,element in enumerate():
+	for i,element in enumerate(ids):
 		if path_to_phrase_model:
 			sentences=blacklab.iterable_results('<s/>',lemma=True, path_to_phrase_model=constants.OUTPUT_FOLDER+"phrase_model",window = 0,document_ids=[element['testimony_id']])
 			sentences = list(sentences)

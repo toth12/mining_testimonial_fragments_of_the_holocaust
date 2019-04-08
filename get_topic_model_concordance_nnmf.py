@@ -19,7 +19,7 @@ def main(query,output_filename,window=50,topicn=50):
 	frame = inspect.currentframe()
 	args, _, _, values = inspect.getargvalues(frame)
 	query_parameters = [(i, values[i]) for i in args]
-	document_collection_original=blacklab.search_blacklab(query,window=window,lemma=True, include_match=True)
+	document_collection_original=blacklab.search_blacklab(query,window=window,lemma=True, include_match=False)
 	print ("Search finished")
 	document_collection=[match['complete_match'].strip() for match in document_collection_original[0:100]]
 

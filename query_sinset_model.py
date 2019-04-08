@@ -3,8 +3,8 @@ import constants
 import pdb
 from gensim.models import Word2Vec
 
-term = "naked"
-model=Word2Vec.load(constants.OUTPUT_FOLDER+'test_synstets')
-similar_terms=model.wv.most_similar(term,topn=30)
+term = "father"
+model=Word2Vec.load(constants.OUTPUT_FOLDER+'synsets_window_5')
+similar_terms=model.wv.most_similar(term,topn=200)
 print (similar_terms)
 pdb.set_trace()
