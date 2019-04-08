@@ -27,6 +27,11 @@ def main():
 	dts=gensim_utils.load_gensim_dictionary_model(constants.OUTPUT_FOLDER+'gensimdictionary_all_words_with_phrases')
 	dts.filter_extremes(no_below=10, no_above=0.95)
 
+	dts=gensim_utils.load_gensim_dictionary_model(constants.OUTPUT_FOLDER+'gensimdictionary_all_words_with_phrases')
+
+	dfObj=gensim_utils.get_document_frequency_in_dictionary(dts,as_pandas_df=True)
+	#df3 = dfObj[dfObj[1] > dfObj[1].median()]
+	dfObj.to_csv(constants.OUTPUT_FOLDER+'all_words_with_phrases.csv')
 	dts.save(constants.OUTPUT_FOLDER+'gensimdictionary_all_words_with_phrases_filtered_no_below_10_no_above_095')
 
 	#Verbs
