@@ -14,3 +14,7 @@ OUTPUT_FOLDER= "Data/Output/"
 #Inputs
 
 INPUT_FOLDER= "Data/Input/"
+
+#Data specific stop words
+
+DATA_SPECIFIC_STOP_WORDS = ['uh','yeah','subject','interviewer','interviewer','int','q']

@@ -9,7 +9,7 @@ import argparse
 import inspect
 from utils import gensim_utils, text, blacklab
 
-
+#model.vocabulary.sort_vocab(model.wv)
 
 
 #This is not working without a phrase model, it is to be improved
@@ -39,7 +39,8 @@ def main(output_filename,path_to_phrase_model,window=5):
 	model = gensim_utils.initialize_gensim_synset_model_with_dictionary(dts,window = window)
 	#Read the ids 
 	ids=text.read_json(constants.INPUT_FOLDER+'testimony_ids.json')
-
+	
+	#model.vocabulary.sort_vocab(model.wv)
 	#All tokens except punctuation
 
 	for i,element in enumerate(ids):

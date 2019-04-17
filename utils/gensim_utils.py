@@ -62,7 +62,8 @@ def initialize_gensim_synset_model_with_dictionary(dictionary,window):
 	result= []
 	for i,word in enumerate(dictionary):
 		result.append([dictionary[word]])
-	model = Word2Vec(min_count=1,window = int(window))
+	pdb.set_trace()
+	model = Word2Vec(min_count=1,window = int(window),sorted_vocab=1)
 	model.build_vocab(result)
 	return model
 
@@ -81,7 +82,7 @@ def identify_phrases(sentence,path_to_gensim_phrase_model):
 	new_sentence=phraser_model[sentence]
 	return new_sentence
 
-def train_lda_topic_model_with_mallet(texts,path_mallet, num_topics=50, scoring = False, start = 2 , step = 3):
+def train_lda_topic_model_with_mallet(texts,path_mallet,terms_to_remove=[],num_topics=50, scoring = False, start = 2 , step = 3):
 	preprocessed_corpus = []
 	for i,text in enumerate(texts):
 		if i==0:
@@ -100,7 +101,18 @@ def train_lda_topic_model_with_mallet(texts,path_mallet, num_topics=50, scoring 
 			#preprocessed_corpus.append(filtered_text)
 			add_documents_to_gensim_dictionary(dct,[text])
 	#this is problematic here, I should not use texts when building the gensim corpus
+	
+	if len(terms_to_remove) > 0:
+		for term in terms_to_remove:
+			dct.filter_tokens(bad_ids=[dct.token2id[term]])
+		
+
+
+	
+	dct.filter_extremes(no_below=10, no_above=0.9)
+	
 	gensim_corpus = [dct.doc2bow(bag_of_word.split()) for bag_of_word in texts]
+	
 	if scoring:
 
 		coherence_values = []
@@ -122,7 +134,7 @@ def train_lda_topic_model_with_mallet(texts,path_mallet, num_topics=50, scoring 
 		return {'model':lda,'corpus' : gensim_corpus}
 
 
-def post_process_result_of_lda_topic_model(lda_model,gensim_corpus,document_collection,document_collection_filtered,n_closest = 15):
+def post_process_result_of_lda_topic_model(lda_model,gensim_corpus,document_collection,document_collection_filtered,n_closest = 25):
 	#Prepare containers to store results
 	#Container to keep the document topic matrix
 	n_closest = - n_closest
