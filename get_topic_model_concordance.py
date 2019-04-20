@@ -88,6 +88,7 @@ def main(query,output_filename,terms_to_remove=[],window=0,topicn=50):
 if __name__ == '__main__':
 
 	#open the CSV file
+	#for instance python get_topic_model_concordance.py -q '["numb"]' -o numbLDA
 
 
 	parser = argparse.ArgumentParser()
@@ -99,7 +100,7 @@ if __name__ == '__main__':
 	parser.add_argument("-topicn", type=int)
 
 
-
+	#normalize the window parameter, 0 value as deafult is not good
 	#parser.add_argument('window')
 	args = parser.parse_args()
 
