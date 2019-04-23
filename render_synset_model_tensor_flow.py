@@ -1,26 +1,23 @@
+"""Render a gensim synset model with T-SNEY."""
 # encoding: utf-8
-"""
-@author: BrikerMan
-@contact: eliyar917@gmail.com
-@blog: https://eliyar.biz
-@version: 1.0
-@license: Apache Licence
-@file: w2v_visualizer.py
-@time: 2017/7/30 上午9:37
-"""
 import sys
 import os
-import pathlib
 import numpy as np
-from gensim.models import Word2Vec
 from gensim.models.keyedvectors import KeyedVectors
 import tensorflow as tf
 from tensorflow.contrib.tensorboard.plugins import projector
 import constants
-import pdb
 
 
 def visualize(model, output_path):
+    """Render gensim synset model on tensorboard.
+
+    Parameters
+    ----------
+    model : {gensim synset model}
+    output_path : {string}
+        Absolute path to a folder where files to run tensorboard are written.
+    """
     meta_file = "w2x_metadata.tsv"
     placeholder = np.zeros((len(model.wv.index2word), model.vector_size))
 
@@ -62,14 +59,9 @@ if __name__ == "__main__":
     """
     try:
         model_path = sys.argv[1]
-        
     except:
-        model_path = constants.OUTPUT_FOLDER+'synsets_window_5'
+        model_path = constants.OUTPUT_FOLDER + 'synsets_window_5'
         print("Please provice model path and output path")
-    
     model = KeyedVectors.load(model_path)
-
-
-    
-    #spathlib.Path(constants.OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
-    visualize(model, constants.OUTPUT_FOLDER+'TensorBoard/')
+    # spathlib.Path(constants.OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
+    visualize(model, constants.OUTPUT_FOLDER + 'TensorBoard/')

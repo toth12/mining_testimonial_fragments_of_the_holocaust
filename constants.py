@@ -1,20 +1,17 @@
-'''Constants used throughout this project'''
-
-#Path to Mallet
-
+"""Constants used throughout this project."""
+# Path to Mallet
 PATH_TO_MALLET = 'Bin/mallet-2.0.8/bin/mallet'
 
-#The Blacklab API endpoint
-BLACKLAB_URL="http://localhost:8080/blacklab-server-1.7.1/lts/"
+# The Blacklab API endpoint
+BLACKLAB_URL = "http://localhost:8080/blacklab-server-1.7.1/lts/"
 
 
-#Outputs
-OUTPUT_FOLDER= "Data/Output/"
+# Outputs
+OUTPUT_FOLDER = "Data/Output/"
 
-#Inputs
+# Inputs
+INPUT_FOLDER = "Data/Input/"
 
-INPUT_FOLDER= "Data/Input/"
-
-#Data specific stop words
-
-DATA_SPECIFIC_STOP_WORDS = ['uh','yeah','subject','interviewer','interviewer','int','q']
+# Data specific stop words
+DATA_SPECIFIC_STOP_WORDS = ['uh', 'yeah', 'subject',
+                            'interviewer', 'interviewer', 'int', 'q']
