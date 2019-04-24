@@ -104,6 +104,7 @@ def main(query, output_filename, terms_to_remove=[], window=0, topicn=50):
                                             query_parameters=query_parameters)
     print('Training lda model finished')
 
+
 if __name__ == '__main__':
 
     # open the CSV file

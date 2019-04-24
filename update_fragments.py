@@ -91,12 +91,14 @@ def find_sentence_id(fragments):
                 pdb.set_trace()
 
     return updated_fragments
+
+
 if __name__ == '__main__':
-    fragments = read_csv(constants.OUTPUT_FOLDER +
+    fragments = read_csv(constants.INPUT_FOLDER + '/Fragments/' +
                          'testimonial_fragments.xlsx')
     fragments = list(fragments)
 
-    old_fragments = read_csv(constants.OUTPUT_FOLDER +
+    old_fragments = read_csv(constants.INPUT_FOLDER + '/Fragments/' +
                              'testimonial_fragments_old.xlsx')
     old_fragments = list(old_fragments)
     updated_fragments = find_sentence_id(fragments)

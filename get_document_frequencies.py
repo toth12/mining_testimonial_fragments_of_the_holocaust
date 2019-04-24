@@ -36,14 +36,11 @@ def main():
         else:
             gensim_utils.add_documents_to_gensim_dictionary(dct, all_words)
 
-    dct.save(constants.OUTPUT_FOLDER+'gensimdictionary_all_words_with_phrases')
+    dct.save(constants.OUTPUT_FOLDER + 'gensimdictionary_all_words_with_phrases')
     # if one wants to filter them
     dts = gensim_utils.load_gensim_dictionary_model(constants.OUTPUT_FOLDER +
                                                     'gensimdictionary_all_words_with_phrases')
     dts.filter_extremes(no_below=10, no_above=0.95)
-
-    dts = gensim_utils.load_gensim_dictionary_model(constants.OUTPUT_FOLDER +
-                                                    'gensimdictionary_all_words_with_phrases')
 
     dfobj = gensim_utils.get_document_frequency_in_dictionary(dts, as_pandas_df=True)
     # df3 = dfObj[dfObj[1] > dfObj[1].median()]

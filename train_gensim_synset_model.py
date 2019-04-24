@@ -35,9 +35,6 @@ def main(output_filename, path_to_phrase_model, window=5):
             ids_to_be_removed.append(i)
     dts.filter_tokens(ids_to_be_removed)
     dts.filter_extremes(no_below=25, no_above=0.95)
-    # dfObj=gensim_utils.get_document_frequency_in_dictionary(dts,as_pandas_df=True)
-    # dfObj.to_csv('all_words_document_frequency.csv')
-    # pdb.set_trace()
     # Initialize an empty model with the dictionary above
     model = gensim_utils.initialize_gensim_synset_model_with_dictionary(dts,
                                                                         window=window)

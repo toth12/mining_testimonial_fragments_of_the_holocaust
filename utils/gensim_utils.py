@@ -1,4 +1,4 @@
-"""Functions to use Gensim."""
+f"""Functions to use Gensim."""
 from gensim.corpora import Dictionary
 import pandas as pd
 from gensim.models import Word2Vec
