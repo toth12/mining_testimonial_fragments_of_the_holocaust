@@ -1,6 +1,6 @@
 # Mining Testimonial Fragments of the Holocaust
 
-The goal of this project is to reconstruct the pieces of the collective experience (aka testimonial fragments) by victims of the Holocaust. Since the data underlying this project is not yet available to the general public, running the project will be possible only at a later stage. 
+The goal of this project is to reconstruct the pieces of the collective experience (aka testimonial fragments) by victims of the Holocaust. The data underlying this project is not yet available to the general public; hence running the project with data will be possible for the wider public only at a later stage. 
 
 ## General Description
 
