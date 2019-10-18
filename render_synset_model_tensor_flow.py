@@ -60,7 +60,7 @@ if __name__ == "__main__":
     try:
         model_path = sys.argv[1]
     except:
-        model_path = constants.OUTPUT_FOLDER + 'synsets_window_5'
+        model_path = constants.OUTPUT_FOLDER + 'synsets_window_1'
     model = KeyedVectors.load(model_path)
     # spathlib.Path(constants.OUTPUT_FOLDER).mkdir(parents=True, exist_ok=True)
     visualize(model, constants.OUTPUT_FOLDER + 'TensorBoard/')
