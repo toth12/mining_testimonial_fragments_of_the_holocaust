@@ -1,0 +1,83 @@
+strict digraph {
+	node [shape=point];
+	n1_0 -> n2_0 [penwidth=0.93];
+	n0_0 -> n1_0 [penwidth=1.87];
+	n0_1 -> n1_0 [penwidth=1.16];
+	n0_7 -> n1_0 [penwidth=0.23];
+	n0_15 -> n1_1 [penwidth=5.95];
+	n0_16 -> n1_0 [penwidth=0.62];
+	n0_17 -> n1_8 [penwidth=0.39];
+	n1_1 -> n2_0 [penwidth=0.30];
+	n0_2 -> n1_6 [penwidth=0.75];
+	n0_9 -> n1_4 [penwidth=0.66];
+	n0_10 -> n1_3 [penwidth=1.13];
+	n0_13 -> n1_3 [penwidth=0.87];
+	n0_18 -> n1_5 [penwidth=0.77];
+	n1_2 -> n2_0 [penwidth=0.42];
+	n0_3 -> n1_2 [penwidth=0.51];
+	n0_6 -> n1_2 [penwidth=0.66];
+	n0_12 -> n1_2 [penwidth=0.67];
+	n0_19 -> n1_2 [penwidth=0.04];
+	n1_3 -> n2_0 [penwidth=0.09];
+	n1_4 -> n2_0 [penwidth=0.02];
+	n0_4 -> n1_4 [penwidth=0.59];
+	n1_5 -> n2_0 [penwidth=0.22];
+	n0_5 -> n1_5 [penwidth=0.29];
+	n1_6 -> n2_0 [penwidth=0.13];
+	n0_8 -> n1_6 [penwidth=0.23];
+	n1_7 -> n2_0 [penwidth=0.79];
+	n0_11 -> n1_7 [penwidth=0.37];
+	n0_14 -> n1_7 [penwidth=0.39];
+	n1_8 -> n2_0 [penwidth=0.01];
+	n1_0 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.60,label="0"]
+	n0_0 [label="0:like daughter
+grandchild thank RF hope",shape=none,fontcolor="black"]
+	n0_1 [label="1:scream lay ~family
+window take floor",shape=none,fontcolor="black"]
+	n0_7 [label="7:anything feel ~somebody
+~house reason wish",shape=none,fontcolor="black"]
+	n0_15 [label="15:see walk time shoot
+grandmother street",shape=none,fontcolor="black"]
+	n0_16 [label="16:pick ~love middle ~war
+blood ~end",shape=none,fontcolor="black"]
+	n0_17 [label="17:recognize death look
+~everybody figure gas",shape=none,fontcolor="black"]
+	n1_1 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.28,label="1"]
+	n0_2 [label="2:throw baby food ~think
+start hide",shape=none,fontcolor="black"]
+	n0_9 [label="9:life ~cousin ~aunt
+~send ~ss ~arm",shape=none,fontcolor="black"]
+	n0_10 [label="10:husband year ~know
+Hitler ~train back",shape=none,fontcolor="black"]
+	n0_13 [label="13:month name New_York
+week shoe bar_mitzvah",shape=none,fontcolor="black"]
+	n0_18 [label="18:child ~call watch
+Israel marry age",shape=none,fontcolor="black"]
+	n1_2 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.16,label="2"]
+	n0_3 [label="3:march table potato camp
+stop barrack",shape=none,fontcolor="black"]
+	n0_6 [label="6:carry line Auschwitz
+soup transport chimney",shape=none,fontcolor="black"]
+	n0_12 [label="12:believe guy break ~let
+heart beat",shape=none,fontcolor="black"]
+	n0_19 [label="19:grow build explain
+survive September nose",shape=none,fontcolor="black"]
+	n1_3 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.12,label="3"]
+	n1_4 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.05,label="4"]
+	n0_4 [label="4:mother father sister
+separate take_care
+~people",shape=none,fontcolor="black"]
+	n1_5 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.03,label="5"]
+	n0_5 [label="5:something ~go give ~use
+~come ~Poland",shape=none,fontcolor="black"]
+	n1_6 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.02,label="6"]
+	n0_8 [label="8:tell ~ghetto story
+write ~bring ~eye",shape=none,fontcolor="black"]
+	n1_7 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.02,label="7"]
+	n0_11 [label="11:nothing home night
+morning bed sleep",shape=none,fontcolor="black"]
+	n0_14 [label="14:soldier speak forest
+sing holiday remember",shape=none,fontcolor="black"]
+	n1_8 [shape=circle,margin="0,0",style=filled,fillcolor=black,fontcolor=white,height=0.00,label="8"]
+	n2_0 [shape=point,height=0.20]
+}

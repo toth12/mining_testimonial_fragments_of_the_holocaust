@@ -9,11 +9,13 @@ except ImportError:
 import json
 import constants
 from gensim.models.phrases import Phrases, Phraser
+import pdb
+import contants
 
 
 def search_blacklab(query, window=5, document_id=None,
                     lemma=False, include_match=True,
-                    search_terms=None):
+                    search_terms=None,left = True, right = True):
     """Run a search against the blacklab server.
 
     For full documentatio on these parameters, see the official BlackLab
@@ -86,6 +88,7 @@ def search_blacklab(query, window=5, document_id=None,
       (number set to zero so that nothing is actually
       returned just the number of docs)
     '''
+
     result = request_url(query + '&number=0')
     total = get_total_numbers(result)
     i = 0
@@ -93,8 +96,8 @@ def search_blacklab(query, window=5, document_id=None,
     for i in range(0, total, 20):
         result = request_url(query + '&first=' + str(i) + '&limit=1')
         result = parse_response(result, include_match=include_match,
-                                lemma=lemma, search_terms=search_terms)
-        final_result.extend(result['results'])
+                                lemma=lemma, search_terms=search_terms,add_left=left,add_right=right)
+        final_result    .extend(result['results'])
     return final_result
 
 
@@ -167,7 +170,7 @@ def request_url(url):
     return json.loads(json_response)
 
 
-def parse_response(obj,lemma, include_match = True, search_terms = None):
+def parse_response(obj,lemma, include_match = True, search_terms = None,add_left = True, add_right = True):
     '''
         Parse a BlackLab server response object into the required format
         @args:
@@ -178,18 +181,27 @@ def parse_response(obj,lemma, include_match = True, search_terms = None):
     total = obj['summary']['numberOfHitsRetrieved']
     doc_infos = obj['docInfos']
     results = []
-    
     for h in obj['hits']:
-        left = get_match_string(h['left'],search_terms = search_terms, lemma = lemma)
-        right = get_match_string(h['right'],search_terms = search_terms, lemma = lemma )
+        
+        if add_left == True:
+            left = get_match_string(h['left'],search_terms = search_terms, lemma = lemma)
+            left_original = get_match_string(h['left'],search_terms = search_terms)
+        else:
+            left =''
+            left_original = ''
+        if add_right == True:
+            right = get_match_string(h['right'],search_terms = search_terms, lemma = lemma )
+            right_original = get_match_string(h['right'],search_terms = search_terms)
+        else:
+            right = ''
+            right_original = ''
+        
         match = get_match_string(h['match'],search_terms = search_terms, lemma = lemma)
-
-        left_original = get_match_string(h['left'],search_terms = search_terms)
-        right_original = get_match_string(h['right'],search_terms = search_terms)
         match_original = get_match_string(h['match'],search_terms = search_terms)
 
         complete_match=left+match+right
         complete_match_word = left_original+match_original+right_original
+        
         if include_match:
             results.append({
                 'left': left,
@@ -234,7 +246,7 @@ def parse_response_query_snippets(obj,lemma):
                 right = get_match_string(f['right'],lemma)
                 match = get_match_string(f['match'],lemma)
                 results.append(left+match+right)
-    pdb.set_trace()
+        
     return {
         'total': total,
         'results': results,
@@ -253,7 +265,7 @@ def get_total_numbers(obj):
     return total
 
 
-def get_match_string(obj,lemma=False,search_terms=None):
+def get_match_string(obj,lemma=False,search_terms=None,pos_filter = True):
     '''
     Parse an object with keys `punct` and `word` which indicates
     the word and punctuation that need to occur in sequence to
@@ -263,18 +275,36 @@ def get_match_string(obj,lemma=False,search_terms=None):
     @returns:
         {str} the string contained in the given side of the hit
     '''
- 
+    
     match_string = ''
     if lemma ==False:
         for idx, i in enumerate(obj['word']):
             match_string += i + obj['punct'][idx]
+    
     else:
-        #pdb.set_trace()
-        for idx, i in enumerate(obj['lemma']):
-            match_string += i + obj['punct'][idx]
+        
+        #this is added here
+        if pos_filter:
+            indices = []
+            for c,element in enumerate(obj['pos']):
+                if (element[0] == "V") or (element[0] == "N"):
+                    indices.append(c)
+            for idx, i in enumerate(obj['lemma']):
+                if idx in indices:
+                    match_string += i + obj['punct'][idx]
+        
+
+        else:
+            
+            for idx, i in enumerate(obj['lemma']):
+                match_string += i + obj['punct'][idx]
+
+
+
     if search_terms is not None:
         for search_term in search_terms:
             match_string = match_string.replace(search_term,'')
+    
     return match_string
 
 
@@ -306,7 +336,6 @@ class iterable_results(object):
  
     def __iter__(self):
         if self.ids is not None:
-
             for index,i in enumerate(self.ids):
                 results=search_blacklab(self.search_pattern,document_id=i,window=self.window,lemma=self.lemma)
                 for result in results:
@@ -324,5 +353,8 @@ class iterable_results(object):
 
 
 def main():
-    response = search_blacklab('<s/> (<s/> containing [lemma="lllllllllllll"]) <s/>',window=0,lemma=True)
-    print(len(response))    
+    response = search_blacklab('<s/> (<s/> containing ["\["] []{0,5} [lemma="cry"]  []{0,5} ["\]"]) <s/>',window=0,lemma=True)
+    pdb.set_trace()
+    print(len(response))
+if __name__ == '__main__':
+        main()    

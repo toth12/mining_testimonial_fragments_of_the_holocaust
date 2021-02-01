@@ -9,8 +9,16 @@ import constants
 from gensim.models.phrases import Phrases, Phraser
 from gensim.models.wrappers import LdaMallet
 import numpy as np
-from gensim.models import CoherenceModel
+from gensim.models import CoherenceModel,TfidfModel
 import matplotlib as plt
+from gensim import matutils as mu
+from corextopic import corextopic as ct
+import pdb
+from sklearn.ensemble import IsolationForest
+from corextopic import vis_topic as vt
+
+
+
 plt.use('PS')
 
 
@@ -249,10 +257,267 @@ def identify_phrases(sentence, path_to_gensim_phrase_model):
     new_sentence = phraser_model[sentence]
     return new_sentence
 
+def train_tf_idf_model(texts,
+                                      terms_to_remove=[],
+                                      no_below=5, no_above=0.75):
+    r"""Train an LDA topic model from texts as bag of words.
+
+    Texts are to be preprocessed. Terms (for instance, stopwords) to be /
+    excluded can be added. Phrasing is not supported. The function can be used
+    also for scoring the results that different topic numbers would give.
+    If scoring is true, it scores each number of topic between the value of
+    start parameter and the top number of topics with steps that defines the
+    incrementation. If set to 1, every topic number is scored. First, it builds
+    a gensim dictionary from all texts, then extremes (documentum frequency
+    not below and percentage not above) are removed and a bag of words model
+    built as input to LDA. This bag of words model is simply the count of terms
+    (not tf-idf).
+
+    Parameters
+    ----------
+    texts : {list of list}
+        Each text is a list of terms (bag of words).
+    path_mallet : {str}
+        Absolute path to Mallet model.
+    terms_to_remove : {list}, optional
+        [description] (the default is [])
+    num_topics : {number}, optional
+        Number of topics (the default is 50).
+    scoring : {bool}, optional
+        Whether the function is used to score different number of topics.
+    start : {number}, optional
+        The starting number of topics for scoring (the default is 2)
+    step : {number}, optional
+        Intervals when scoring (the default is 3).
+
+    Returns
+    -------
+    list of int
+        gensim LDA model and the Gensim trained corpus object as input.
+    gensim LDA model and gensim corpus model
+        if scoring false, gensim LDA model and the Gensim trained corpus object
+        as input.
+
+    """
+    preprocessed_corpus = []
+    for i, text in enumerate(texts):
+        if i == 0:
+            # todo filter here
+            text = text.split()
+
+            # Additional filtering steps #
+            """
+            filtered_text = [word for word in text if (word[0] in
+                    string.ascii_uppercase + string.ascii_lowercase)]
+
+            filtered_text = [word for word in filtered_text if
+                    (word not in set(stopwords.words('english')))]
+            preprocessed_corpus.append(filtered_text)
+            """
+
+            dct = initialize_gensim_dictionary([text])
+        else:
+            text = text.split()
+            # Additional filtering steps
+
+            """
+            filtered_text = [word for word in text if (word[0] in
+                    string.ascii_uppercase + string.ascii_lowercase)]
+
+            filtered_text = [word for word in filtered_text if
+                    (word not in set(stopwords.words('english')))]
+            preprocessed_corpus.append(filtered_text)
+            """
+            add_documents_to_gensim_dictionary(dct, [text])
+    # todo:this is to be integrated to the building process
+
+    if len(terms_to_remove) > 0:
+        
+        for term in terms_to_remove:
+            try:
+                dct.filter_tokens(bad_ids=[dct.token2id[term]])
+            except:
+                pass
+
+    
+    dct.filter_extremes(no_below=no_below, no_above=no_above)
+
+    gensim_corpus = [dct.doc2bow(bag_of_word.split()) for bag_of_word in texts]
+    
+    
+    
+        
+    features = list(dct.token2id.keys())
+    model_tfid = TfidfModel(gensim_corpus,dictionary = dct,)
+    corpus_tfidf = model_tfid[gensim_corpus]
+    document_term=mu.corpus2dense(corpus_tfidf, len(features)).T
+    
+    
+
+    document_term_for_remove = np.where(document_term > 0, 1, 0)
+    #clf = IsolationForest( behaviour = 'new', max_samples=100, random_state = 1, contamination= 'auto')
+    #preds = clf.fit_predict( np.count_nonzero(document_term, axis=0).reshape(-1,1))
+    #to_remove = np.where(preds == -1)[0]
+    upper_quantile = np.quantile(np.count_nonzero(document_term_for_remove, axis=0),q=0.75)
+    lower_quantile = np.quantile(np.count_nonzero(document_term_for_remove, axis=0),q=0.25)
+    to_remove = np.where(np.count_nonzero(document_term, axis=0)>upper_quantile)[0].tolist() + np.where(np.count_nonzero(document_term, axis=0)<lower_quantile)[0].tolist()
+    print (len(to_remove))
+    
+    #document_term = np.delete(document_term, to_remove, axis=0)
+    
+    
+    return {'document_term': document_term, 'dictionary': list(dct.token2id.keys()),'removed':to_remove}
+
+
+
+def train_corex_topic_model(texts,
+                                      terms_to_remove=[], num_topics=8,
+                                      no_below=5, no_above=0.75,
+                                      scoring=False, start=2, step=3):
+    r"""Train an LDA topic model from texts as bag of words.
+
+    Texts are to be preprocessed. Terms (for instance, stopwords) to be /
+    excluded can be added. Phrasing is not supported. The function can be used
+    also for scoring the results that different topic numbers would give.
+    If scoring is true, it scores each number of topic between the value of
+    start parameter and the top number of topics with steps that defines the
+    incrementation. If set to 1, every topic number is scored. First, it builds
+    a gensim dictionary from all texts, then extremes (documentum frequency
+    not below and percentage not above) are removed and a bag of words model
+    built as input to LDA. This bag of words model is simply the count of terms
+    (not tf-idf).
+
+    Parameters
+    ----------
+    texts : {list of list}
+        Each text is a list of terms (bag of words).
+    path_mallet : {str}
+        Absolute path to Mallet model.
+    terms_to_remove : {list}, optional
+        [description] (the default is [])
+    num_topics : {number}, optional
+        Number of topics (the default is 50).
+    scoring : {bool}, optional
+        Whether the function is used to score different number of topics.
+    start : {number}, optional
+        The starting number of topics for scoring (the default is 2)
+    step : {number}, optional
+        Intervals when scoring (the default is 3).
+
+    Returns
+    -------
+    list of int
+        gensim LDA model and the Gensim trained corpus object as input.
+    gensim LDA model and gensim corpus model
+        if scoring false, gensim LDA model and the Gensim trained corpus object
+        as input.
+
+    """
+    preprocessed_corpus = []
+    for i, text in enumerate(texts):
+        if i == 0:
+            # todo filter here
+            text = text.split()
+
+            # Additional filtering steps #
+            """
+            filtered_text = [word for word in text if (word[0] in
+                    string.ascii_uppercase + string.ascii_lowercase)]
+
+            filtered_text = [word for word in filtered_text if
+                    (word not in set(stopwords.words('english')))]
+            preprocessed_corpus.append(filtered_text)
+            """
+
+            dct = initialize_gensim_dictionary([text])
+        else:
+            text = text.split()
+            # Additional filtering steps
+
+            """
+            filtered_text = [word for word in text if (word[0] in
+                    string.ascii_uppercase + string.ascii_lowercase)]
+
+            filtered_text = [word for word in filtered_text if
+                    (word not in set(stopwords.words('english')))]
+            preprocessed_corpus.append(filtered_text)
+            """
+            add_documents_to_gensim_dictionary(dct, [text])
+    # todo:this is to be integrated to the building process
+
+    if len(terms_to_remove) > 0:
+        
+        for term in terms_to_remove:
+            try:
+                dct.filter_tokens(bad_ids=[dct.token2id[term]])
+            except:
+                pass
+
+    
+    dct.filter_extremes(no_below=no_below, no_above=no_above)
+
+    gensim_corpus = [dct.doc2bow(bag_of_word.split()) for bag_of_word in texts]
+    
+    if scoring:
+
+        coherence_values = []
+
+        for n in range(start, num_topics, step):
+
+            lda = LdaMallet(constants.PATH_TO_MALLET,
+                            gensim_corpus, id2word=dct,
+                            num_topics=n)
+            coherencemodel = CoherenceModel(model=lda,
+                                            texts=preprocessed_corpus,
+                                            dictionary=dct, coherence='c_v')
+            coherence_values.append(coherencemodel.get_coherence())
+
+        return coherence_values
+
+    else:
+        
+        features = list(dct.token2id.keys())
+        model_tfid = TfidfModel(gensim_corpus,dictionary = dct,)
+        corpus_tfidf = model_tfid[gensim_corpus]
+        document_term=mu.corpus2dense(corpus_tfidf, len(features)).T
+        
+        
+
+        document_term = np.where(document_term > 0, 1, 0)
+        #clf = IsolationForest( behaviour = 'new', max_samples=100, random_state = 1, contamination= 'auto')
+        #preds = clf.fit_predict( np.count_nonzero(document_term, axis=0).reshape(-1,1))
+        #to_remove = np.where(preds == -1)[0]
+        upper_quantile = np.quantile(np.count_nonzero(document_term, axis=0),q=0.75)
+        lower_quantile = np.quantile(np.count_nonzero(document_term, axis=0),q=0.25)
+        to_remove = np.where(np.count_nonzero(document_term, axis=0)>upper_quantile)[0].tolist() + np.where(np.count_nonzero(document_term, axis=0)<lower_quantile)[0].tolist()
+        print (len(to_remove))
+        
+        document_term = np.delete(document_term, to_remove, axis=0)
+        
+        anchors = [['die'],['night','scream'],['ask','remember'],['happen','hear',
+        'hope','understand'],['take','gas_chamber','truck'],['say_goodbye'],['door','open',
+        'arrive'],['food','water'],['shoot',]]
+
+
+
+        # Run Corex topic modelling
+        topic_model = ct.Corex(n_hidden=num_topics, max_iter=200, verbose=False, seed=8)
+        topic_model.fit(np.matrix(document_term), words=dct.token2id.keys(), anchor_strength=6)
+
+        # Train successive layers
+        tm_layer2 = ct.Corex(n_hidden=10)
+        tm_layer2.fit(topic_model.labels)
+
+        tm_layer3 = ct.Corex(n_hidden=1)
+        tm_layer3.fit(tm_layer2.labels)
+        words = [element for element in dct.token2id.keys()]
+        vt.vis_hierarchy([topic_model, tm_layer2, tm_layer3], column_label=words, max_edges=300, prefix='topic-model-hiearchica')
+
+        return {'model': topic_model, 'dictionary': list(dct.token2id.keys()),'removed':to_remove}
 
 def train_lda_topic_model_with_mallet(texts, path_mallet,
                                       terms_to_remove=[], num_topics=50,
-                                      no_below=10, no_above=0.9,
+                                      no_below=5, no_above=0.7,
                                       scoring=False, start=2, step=3):
     r"""Train an LDA topic model from texts as bag of words.
 
@@ -497,6 +762,7 @@ def visualize_topic_scoring(scores, limit, start, step, path_to_output_file):
     plt.ylabel("Coherence score")
     plt.legend(("coherence_values"), loc='best')
     plt.savefig(path_to_output_file)
+    pdb.set_trace()
 
 
 if __name__ == '__main__':
