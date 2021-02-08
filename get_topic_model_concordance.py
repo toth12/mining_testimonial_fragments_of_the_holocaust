@@ -36,7 +36,7 @@ def main(query, output_filename, terms_to_remove=[], window=0, topicn=50):
                                                             include_match=True)
 
     # Eliminate overlapping results
-
+ 
     # Find those ids that are present more than once
     ids = {i['testimony_id']: []for i in document_collection_original}
 

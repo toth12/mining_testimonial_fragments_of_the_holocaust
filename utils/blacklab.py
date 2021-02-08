@@ -86,6 +86,7 @@ def search_blacklab(query, window=5, document_id=None,
       (number set to zero so that nothing is actually
       returned just the number of docs)
     '''
+    print (query)
     result = request_url(query + '&number=0')
     total = get_total_numbers(result)
     i = 0
@@ -196,7 +197,7 @@ def parse_response(obj,lemma, include_match = True, search_terms = None):
                 'match_word' : complete_match_word,
                 'right': right,
                 'complete_match':complete_match,
-                'testimony_id': get_testimony_meta(h, 'testimony_id', doc_infos),
+                'testimony_id': get_testimony_meta(h, 'testimony_id', doc_infos)[0],
                 'shelfmark': get_testimony_meta(h, 'shelfmark', doc_infos),
                 'token_start': h['start'],
                 'token_end': h['end']
@@ -207,7 +208,7 @@ def parse_response(obj,lemma, include_match = True, search_terms = None):
                                 'right': right,
                                 'match_word' : complete_match_word  ,
                                 'complete_match':left + right,
-                                'testimony_id': get_testimony_meta(h, 'testimony_id', doc_infos),
+                                'testimony_id': get_testimony_meta(h, 'testimony_id', doc_infos)[0],
                                 'shelfmark': get_testimony_meta(h, 'shelfmark', doc_infos),
                                 'token_start': h['start'],
                                 'token_end': h['end']
@@ -324,5 +325,8 @@ class iterable_results(object):
 
 
 def main():
-    response = search_blacklab('<s/> (<s/> containing [lemma="lllllllllllll"]) <s/>',window=0,lemma=True)
-    print(len(response))    
+    response = search_blacklab('<s/> (<s/> containing [lemma="go"]) <s/>',window=0,lemma=True)
+    print(len(response))
+
+if __name__ == '__main__':
+        main()    
