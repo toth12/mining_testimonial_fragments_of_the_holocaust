@@ -294,6 +294,7 @@ def train_lda_topic_model_with_mallet(texts, path_mallet,
 
     """
     preprocessed_corpus = []
+    print ('training of gensim corpus began')
     for i, text in enumerate(texts):
         if i == 0:
             # todo filter here
@@ -332,7 +333,7 @@ def train_lda_topic_model_with_mallet(texts, path_mallet,
     dct.filter_extremes(no_below=no_below, no_above=no_above)
 
     gensim_corpus = [dct.doc2bow(bag_of_word.split()) for bag_of_word in texts]
-
+    print ('gensim corpus done')
     if scoring:
 
         coherence_values = []
