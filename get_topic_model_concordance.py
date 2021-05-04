@@ -7,9 +7,10 @@ import constants
 import argparse
 import inspect
 import difflib
+import pdb
 
 
-def main(query, output_filename, terms_to_remove=[], window=0, topicn=50):
+def main(query, output_filename=None, terms_to_remove=[], window=0, topicn=50):
     """Query a corpus and find the topics underlying the concordance.
 
     Parameters
@@ -36,7 +37,7 @@ def main(query, output_filename, terms_to_remove=[], window=0, topicn=50):
                                                             include_match=True)
 
     # Eliminate overlapping results
- 
+
     # Find those ids that are present more than once
     ids = {i['testimony_id']: []for i in document_collection_original}
 
@@ -95,14 +96,17 @@ def main(query, output_filename, terms_to_remove=[], window=0, topicn=50):
     result = gensim_utils.post_process_result_of_lda_topic_model(result_lda_training['model'],
                                                                  result_lda_training['corpus'],
                                                                  document_collection_original,
-                                                                 document_collection_filtered)
-
-    # topic_text = text.read_json('topics_texts')
-    gensim_utils.write_topics_texts_to_file(result['topic_documents'],
-                                            constants.OUTPUT_FOLDER +
-                                            output_filename,
-                                            query_parameters=query_parameters)
-    print('Training lda model finished')
+                                                          document_collection_filtered)
+    
+    if output_filename == None:
+        return result
+    else:
+        # topic_text = text.read_json('topics_texts')
+        gensim_utils.write_topics_texts_to_file(result['topic_documents'],
+                                                constants.OUTPUT_FOLDER +
+                                                output_filename,
+                                                query_parameters=query_parameters)
+        print('Training lda model finished')
 
 
 if __name__ == '__main__':
